@@ -1,0 +1,126 @@
+╔════════════════════════════════════════════════════════════════╗
+║   LEAD GENERATION SAAS - INSTALACIÓN AUTOMÁTICA PARA WINDOWS    ║
+╚════════════════════════════════════════════════════════════════╝
+
+🎯 ¿QUÉ HACER?
+
+OPCIÓN 1 - La Más Fácil (SIN ABRIR POWERSHELL):
+═════════════════════════════════════════════════════════════════
+
+1. Busca el archivo: INSTALAR.bat
+2. DOBLE CLICK en INSTALAR.bat
+3. Espera a que termine (2-3 minutos)
+4. Se abrirá una ventana de comandos
+5. Verás si todo funcionó
+6. Luego abre: http://localhost:3000
+
+¡Eso es todo! ✅
+
+
+OPCIÓN 2 - Si INSTALAR.bat No Funciona:
+═════════════════════════════════════════════════════════════════
+
+Abre PowerShell como Administrador y copia estos comandos:
+
+---
+
+Copy-Item ".env.example" ".env"
+
+---
+
+docker-compose build
+
+---
+
+docker-compose up -d
+
+---
+
+Start-Sleep -Seconds 10
+
+---
+
+docker-compose ps
+
+---
+
+Luego abre: http://localhost:3000
+
+
+REQUISITOS PREVIOS:
+═════════════════════════════════════════════════════════════════
+
+✅ Docker Desktop instalado
+   Descarga: https://www.docker.com/products/docker-desktop
+
+
+DESPUÉS DE LA INSTALACIÓN:
+═════════════════════════════════════════════════════════════════
+
+Dashboard:  http://localhost:3000
+API:        http://localhost:5000/api/v1
+
+
+RESOLVER PROBLEMAS:
+═════════════════════════════════════════════════════════════════
+
+❌ "docker" no se reconoce:
+   → Reinicia tu PC después de instalar Docker
+
+❌ Puerto 3000 ya en uso:
+   → Cierra otras aplicaciones que usen ese puerto
+
+❌ Services no arrancan:
+   → Abre PowerShell y escribe: docker-compose logs
+
+
+ESTRUCTURA DEL PROYECTO:
+═════════════════════════════════════════════════════════════════
+
+backend/           → API REST (NestJS)
+frontend/          → Dashboard (Next.js)
+docker-compose.yml → Configuración de servicios
+scripts/           → Scripts de instalación
+
+
+ARCHIVOS IMPORTANTES:
+═════════════════════════════════════════════════════════════════
+
+README.md                   → Descripción del producto
+QUICKSTART.md              → Guía rápida
+API.md                     → Documentación API
+SALES_PITCH.md             → Modelo de negocio
+INSTALLATION.md            → Guía de instalación detallada
+INSTALL_WINDOWS.md         → Guía Windows completa
+demo.js                    → Demo ejecutable (node demo.js)
+
+
+COMANDOS ÚTILES:
+═════════════════════════════════════════════════════════════════
+
+# Ver logs en vivo
+docker-compose logs -f
+
+# Detener servicios
+docker-compose stop
+
+# Iniciar servicios
+docker-compose start
+
+# Ver estado
+docker-compose ps
+
+# Limpiar todo
+docker-compose down -v
+
+
+¿NECESITAS AYUDA?
+═════════════════════════════════════════════════════════════════
+
+Lee: INSTALL_WINDOWS.md
+O: https://docs.leadgen-saas.com
+
+
+═════════════════════════════════════════════════════════════════
+¡Todo listo! Usa INSTALAR.bat y espera. 🚀
+═════════════════════════════════════════════════════════════════

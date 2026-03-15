@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Generation SaaS - Instalación</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .step strong {
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .step code {
+            background: #333;
+            color: #0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 14px;
+        }
+
+        .button:hover {
+            background: #764ba2;
+        }
+
+        .button.secondary {
+            background: #999;
+        }
+
+        .button.secondary:hover {
+            background: #666;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #856404;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #28a745;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #155724;
+        }
+
+        .link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .emoji {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+
+        ul {
+            margin-left: 20px;
+            color: #666;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Lead Generation SaaS</h1>
+        <p class="subtitle">Instalación automática para Windows</p>
+
+        <!-- Option 1 -->
+        <div class="section">
+            <h2>✅ OPCIÓN 1: Automática (La Más Fácil)</h2>
+
+            <div class="success">
+                <strong>¡SIN ABRIR TERMINAL!</strong><br>
+                Solo necesitas hacer doble click en un archivo.
+            </div>
+
+            <div class="step">
+                <strong>Paso 1:</strong>
+                Busca el archivo <code>INSTALAR.bat</code> en tu carpeta
+            </div>
+
+            <div class="step">
+                <strong>Paso 2:</strong>
+                Haz <strong>DOBLE CLICK</strong> en <code>INSTALAR.bat</code>
+            </div>
+
+            <div class="step">
+                <strong>Paso 3:</strong>
+                Se abrirá una ventana de comandos. Espera a que termine (2-3 minutos)
+            </div>
+
+            <div class="step">
+                <strong>Paso 4:</strong>
+                Cuando veas ✅ "INSTALLATION COMPLETE!", presiona cualquier tecla
+            </div>
+
+            <div class="step">
+                <strong>Paso 5:</strong>
+                Abre tu navegador y ve a:
+                <br><code>http://localhost:3000</code>
+            </div>
+
+            <p style="margin-top: 20px;">
+                <strong>¡Eso es todo! ✨</strong>
+            </p>
+        </div>
+
+        <!-- Option 2 -->
+        <div class="section">
+            <h2>🔧 OPCIÓN 2: Manual (Si INSTALAR.bat No Funciona)</h2>
+
+            <div class="warning">
+                Abre <strong>PowerShell como Administrador</strong> y copia cada comando.
+            </div>
+
+            <div class="step">
+                <strong>Comando 1:</strong>
+                <br><code>Copy-Item ".env.example" ".env"</code>
+            </div>
+
+            <div class="step">
+                <strong>Comando 2:</strong>
+                <br><code>docker-compose build</code>
+                <br><em>(Espera 2-3 minutos)</em>
+            </div>
+
+            <div class="step">
+                <strong>Comando 3:</strong>
+                <br><code>docker-compose up -d</code>
+            </div>
+
+            <div class="step">
+                <strong>Comando 4:</strong>
+                <br><code>Start-Sleep -Seconds 10</code>
+            </div>
+
+            <div class="step">
+                <strong>Comando 5:</strong>
+                <br><code>docker-compose ps</code>
+            </div>
+
+            <p style="margin-top: 20px;">
+                Luego abre: <code>http://localhost:3000</code>
+            </p>
+        </div>
+
+        <!-- Requirements -->
+        <div class="section">
+            <h2>📋 Requisitos</h2>
+
+            <ul>
+                <li>✅ <strong>Docker Desktop</strong> instalado en Windows</li>
+                <li>✅ PowerShell (viene con Windows)</li>
+                <li>✅ 4GB de RAM mínimo</li>
+                <li>✅ Conexión a internet</li>
+            </ul>
+
+            <p style="margin-top: 15px;">
+                <strong>¿No tienes Docker?</strong><br>
+                <a href="https://www.docker.com/products/docker-desktop" class="link">Descarga Docker Desktop aquí</a>
+            </p>
+        </div>
+
+        <!-- After Installation -->
+        <div class="section">
+            <h2>🎉 Después de la instalación</h2>
+
+            <div class="success">
+                <strong>¡Todo listo!</strong>
+            </div>
+
+            <ul>
+                <li>📊 Dashboard: <code>http://localhost:3000</code></li>
+                <li>🔌 API: <code>http://localhost:5000/api/v1</code></li>
+                <li>📝 Demo: <code>node demo.js</code></li>
+            </ul>
+
+            <p style="margin-top: 15px;">
+                <strong>Próximos pasos:</strong>
+            </p>
+            <ol style="margin-left: 20px; color: #666;">
+                <li>Crea una cuenta en el dashboard</li>
+                <li>Sube tus datos de clientes históricos</li>
+                <li>El AI generará leads automáticamente</li>
+                <li>¡Mira el ROI en tiempo real!</li>
+            </ol>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="section">
+            <h2>❓ Problemas Comunes</h2>
+
+            <div class="step">
+                <strong>❌ "docker" no se reconoce</strong>
+                <br>Solución: Reinicia tu PC después de instalar Docker
+            </div>
+
+            <div class="step">
+                <strong>❌ Puerto 3000 ya en uso</strong>
+                <br>Solución: Cierra otras aplicaciones que usen ese puerto
+            </div>
+
+            <div class="step">
+                <strong>❌ Servicios no arrancan</strong>
+                <br>Solución: Abre PowerShell y escribe:<br>
+                <code>docker-compose logs</code>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="section">
+            <h2>📚 Documentación</h2>
+
+            <ul>
+                <li><a href="README.md" class="link">📖 README - Descripción del producto</a></li>
+                <li><a href="QUICKSTART.md" class="link">⚡ QUICKSTART - Guía rápida</a></li>
+                <li><a href="API.md" class="link">🔌 API - Documentación completa</a></li>
+                <li><a href="SALES_PITCH.md" class="link">💰 SALES_PITCH - Modelo de negocio</a></li>
+                <li><a href="INSTALL_WINDOWS.md" class="link">🪟 INSTALL_WINDOWS - Guía completa</a></li>
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 14px;">
+            <p>Lead Generation SaaS - AI-Powered Lead Generation Platform</p>
+            <p>Version 1.0.0 | Production Ready ✨</p>
+        </div>
+    </div>
+
+    <script>
+        // Auto-scroll if on mobile
+        if (window.innerWidth < 768) {
+            document.querySelector('.container').scrollIntoView();
+        }
+    </script>
+</body>
+</html>
