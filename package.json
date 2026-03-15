@@ -1,0 +1,24 @@
+{
+  "name": "lead-generation-saas",
+  "version": "1.0.0",
+  "description": "AI-Powered Lead Generation SaaS Platform",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend",
+    "agents"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "build": "npm run build -w backend && npm run build -w frontend",
+    "test": "npm test -w backend",
+    "install:all": "npm install && npm install -w backend && npm install -w frontend && npm install -w agents",
+    "docker:build": "docker-compose -f docker-compose.yml build",
+    "docker:up": "docker-compose -f docker-compose.yml up -d",
+    "docker:down": "docker-compose -f docker-compose.yml down",
+    "docker:logs": "docker-compose -f docker-compose.yml logs -f"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
