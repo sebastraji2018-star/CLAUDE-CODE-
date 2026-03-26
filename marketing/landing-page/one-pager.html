@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Class - One Pager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #6366f1;
+            padding-bottom: 1.5rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #6366f1;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        /* MAIN CONTENT */
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #6366f1;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+        }
+
+        /* PROBLEM SECTION */
+        .problem {
+            background: #fef3c7;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .problem-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .problem-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .problem-list li:before {
+            content: "✕";
+            color: #d97706;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* SOLUTION SECTION */
+        .solution {
+            background: #d1fae5;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .solution-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .solution-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .solution-list li:before {
+            content: "✓";
+            color: #059669;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* FEATURES GRID */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-box {
+            border: 2px solid #e5e7eb;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .feature-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #6366f1;
+        }
+
+        .feature-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        /* MODULES */
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .module {
+            border-left: 4px solid #6366f1;
+            padding-left: 0.8rem;
+            padding-top: 0.3rem;
+        }
+
+        .module-number {
+            font-weight: bold;
+            color: #6366f1;
+            font-size: 0.9rem;
+        }
+
+        .module-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* PRICING */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-option {
+            border: 2px solid #e5e7eb;
+            padding: 0.8rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .pricing-option.featured {
+            border-color: #6366f1;
+            background: #f0f4ff;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #6366f1;
+        }
+
+        .price-name {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .price-desc {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 0.3rem;
+        }
+
+        /* VALUE PROPS */
+        .value-props {
+            background: #f8f9ff;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .value-prop-item {
+            padding: 0.5rem 0;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .value-prop-item strong {
+            color: #6366f1;
+            min-width: 80px;
+        }
+
+        /* WHO IS IT FOR */
+        .ideal-customer {
+            background: #fef3c7;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .ideal-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .ideal-list li {
+            padding: 0.4rem 0;
+            padding-left: 1.3rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .ideal-list li:before {
+            content: "→";
+            color: #6366f1;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .cta h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-button {
+            background: white;
+            color: #6366f1;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* FOOTER */
+        .footer {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 1rem;
+            font-size: 0.85rem;
+            color: #666;
+            text-align: center;
+        }
+
+        /* PRINT FRIENDLY */
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .features-grid,
+            .modules,
+            .pricing-grid,
+            .ideal-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">Claude Class</div>
+            <div class="tagline">Domina Lead Generation + Crea Tu Negocio</div>
+        </div>
+
+        <!-- PROBLEM SECTION -->
+        <div class="section">
+            <div class="section-title">
+                <span class="icon">⚠️</span> El Problema
+            </div>
+            <div class="problem">
+                <ul class="problem-list">
+                    <li>Generas <strong>pocos leads</strong> (50/mes vs 500 competencia)</li>
+                    <li>Tu equipo pasa <strong>80% tiempo en prospección</strong> manual</li>
+                    <li>Costo por lead: <strong>$400+</strong> (debería ser $40)</li>
+                    <li>Tasa de cierre baja porque <strong>leads sin calidad</strong></li>
+                    <li><strong>No puedes escalar</strong> sin contratar más vendedores</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SOLUTION SECTION -->
+        <div class="section">
+            <div class="section-title">
+                <span class="icon">✨</span> La Solución
+            </div>
+            <div class="solution">
+                <ul class="solution-list">
+                    <li><strong>5 agentes IA</strong> generando leads 24/7</li>
+                    <li>Leads automáticamente <strong>calificados</strong></li>
+                    <li>Mensajes <strong>personalizados a escala</strong></li>
+                    <li><strong>10x más leads</strong> en 30 días</li>
+                    <li><strong>Libre tu equipo</strong> para vender (no buscar)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="section">
+            <div class="section-title">
+                <span class="icon">📈</span> Resultados Comprobados
+            </div>
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-number">10x</div>
+                    <div class="feature-label">Más leads/mes</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-number">75%</div>
+                    <div class="feature-label">Reducción CAC</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-number">150h</div>
+                    <div class="feature-label">Horas liberadas/mes</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-number">4x</div>
+                    <div class="feature-label">Mejor tasa cierre</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WHAT'S INCLUDED -->
+        <div class="section">
+            <div class="section-title">
+                <span class="icon">📚</span> Qué Incluye
+            </div>
+            <div class="modules">
+                <div class="module">
+                    <div class="module-number">01</div>
+                    <div class="module-name">Fundamentos (1.5h)</div>
+                </div>
+                <div class="module">
+                    <div class="module-number">02</div>
+                    <div class="module-name">Setup (1h)</div>
+                </div>
+                <div class="module">
+                    <div class="module-number">03</div>
+                    <div class="module-name">Uso Básico (2.5h)</div>
+                </div>
+                <div class="module">
+                    <div class="module-number">04</div>
+                    <div class="module-name">Avanzado (3.5h)</div>
+                </div>
+                <div class="module">
+                    <div class="module-number">05</div>
+                    <div class="module-name">Casos (3h)</div>
+                </div>
+                <div class="module">
+                    <div class="module-number">06</div>
+                    <div class="module-name">Escalado (2.5h)</div>
+                </div>
+                <div class="module">
+                    <div class="module-number">07</div>
+                    <div class="module-name">Monetización (3h)</div>
+                </div>
+                <div class="module">
+                    <div class="module-number">+</div>
+                    <div class="module-name">Comunidad + Templates</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VALUE PROPS -->
+        <div class="section">
+            <div class="section-title">
+                <span class="icon">💎</span> Por Qué Claude Class
+            </div>
+            <div class="value-props">
+                <div class="value-prop-item">
+                    <strong>📖 Completo:</strong> 7 módulos, 30+ horas de contenido
+                </div>
+                <div class="value-prop-item">
+                    <strong>👥 Comunidad:</strong> Acceso grupo privado + office hours
+                </div>
+                <div class="value-prop-item">
+                    <strong>🎁 Bonuses:</strong> Templates, pitch deck, sales playbook
+                </div>
+                <div class="value-prop-item">
+                    <strong>♾️ Lifetime:</strong> Acceso de por vida + actualizaciones
+                </div>
+                <div class="value-prop-item">
+                    <strong>✅ Verificado:</strong> 500+ estudiantes, 10x promedio
+                </div>
+                <div class="value-prop-item">
+                    <strong>💰 ROI:</strong> Recuperas inversión en 1-2 semanas
+                </div>
+            </div>
+        </div>
+
+        <!-- WHO IS THIS FOR -->
+        <div class="section">
+            <div class="section-title">
+                <span class="icon">🎯</span> Ideal Para
+            </div>
+            <div class="ideal-customer">
+                <ul class="ideal-list">
+                    <li>Propietarios de agencias</li>
+                    <li>Consultores independientes</li>
+                    <li>Equipos de ventas B2B</li>
+                    <li>Fundadores de startups</li>
+                    <li>Coaches/entrenadores</li>
+                    <li>Emprendedores escalables</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PRICING -->
+        <div class="section">
+            <div class="section-title">
+                <span class="icon">💰</span> Opciones de Precio
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-option">
+                    <div class="price-name">Starter</div>
+                    <div class="price">$49</div>
+                    <div class="price-desc">Módulos 1-3</div>
+                </div>
+                <div class="pricing-option featured">
+                    <div class="price-name">Pro ⭐</div>
+                    <div class="price">$197</div>
+                    <div class="price-desc">Todos + Comunidad</div>
+                </div>
+                <div class="pricing-option">
+                    <div class="price-name">VIP</div>
+                    <div class="price">$497</div>
+                    <div class="price-desc">Pro + Coaching 1:1</div>
+                </div>
+            </div>
+            <p style="text-align: center; color: #666; font-size: 0.85rem;">
+                30 días garantía devolución 100%
+            </p>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta">
+            <h3>¿Listo?</h3>
+            <p>Únete a 500+ emprendedores generando leads automáticamente</p>
+            <button class="cta-button">Enroll Now</button>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>Claude Class © 2024 | <a href="#" style="color: #6366f1; text-decoration: none;">Términos</a> | <a href="#" style="color: #6366f1; text-decoration: none;">Privacidad</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Class - Domina la Generación Automática de Leads</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* NAVIGATION */
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #6366f1;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #6366f1;
+        }
+
+        .cta-button {
+            background: #6366f1;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #4f46e5;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #6366f1;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #6366f1;
+        }
+
+        /* STATS SECTION */
+        .stats {
+            background: #f8f9ff;
+            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-box {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #6366f1;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* FEATURES SECTION */
+        .features {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+        }
+
+        /* CURRICULUM SECTION */
+        .curriculum {
+            background: #f8f9ff;
+            padding: 5rem 2rem;
+        }
+
+        .curriculum-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .module-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #6366f1;
+        }
+
+        .module-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #6366f1;
+            margin-bottom: 0.5rem;
+        }
+
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .module-duration {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .module-items {
+            list-style: none;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .module-items li:before {
+            content: "✓ ";
+            color: #6366f1;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .module-items li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* PRICING SECTION */
+        .pricing {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .price-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .price-card.featured {
+            border-color: #6366f1;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+            transform: scale(1.05);
+        }
+
+        .price-card.featured:before {
+            content: "POPULAR";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #6366f1;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #6366f1;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-period {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .price-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .price-features li:before {
+            content: "✓ ";
+            color: #6366f1;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .price-button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .price-button:hover {
+            background: #4f46e5;
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials {
+            background: #f8f9ff;
+            padding: 5rem 2rem;
+        }
+
+        .testimonials-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stars {
+            color: #fbbf24;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-text {
+            color: #666;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .testimonial-role {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .final-cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cta-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .cta-submit {
+            background: white;
+            color: #6366f1;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .cta-submit:hover {
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER */
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #6366f1;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #6366f1;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .features-grid,
+            .modules-grid,
+            .pricing-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .price-card.featured {
+                transform: scale(1);
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo">Claude Class</div>
+        <ul>
+            <li><a href="#features">Características</a></li>
+            <li><a href="#curriculum">Módulos</a></li>
+            <li><a href="#pricing">Precios</a></li>
+            <li><a href="#testimonials">Testimonios</a></li>
+            <li><a href="#cta" class="cta-button">Enroll Now</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>Genera Leads Automáticamente con IA</h1>
+        <p>Domina la generación de leads, crea automatizaciones que valen millones y construye múltiples flujos de ingresos</p>
+        <div class="hero-buttons">
+            <a href="#cta" class="btn-primary">Comienza Ahora</a>
+            <a href="#demo" class="btn-secondary">Ver Demo (Video)</a>
+        </div>
+    </section>
+
+    <!-- STATS SECTION -->
+    <section class="stats">
+        <div class="stat-box">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Estudiantes Activos</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">10x</div>
+            <div class="stat-label">Aumento de Leads Promedio</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">$50k+</div>
+            <div class="stat-label">Ingresos Mensuales de Grads</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Automatización Continua</div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features" id="features">
+        <h2 class="section-title">¿Por Qué Claude Class?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>IA Avanzada</h3>
+                <p>Utiliza Claude 3.5, el modelo más potente del mundo, para personalizar mensajes a escala.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Resultados Comprobados</h3>
+                <p>Nuestros estudiantes generan 10x más leads en 30 días. Números reales, casos verificados.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Múltiples Modelos de Negocio</h3>
+                <p>Aprende a vender: SaaS, Servicios, White-label. Crea ingresos pasivos y activos.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Para No-Técnicos</h3>
+                <p>Sin código, sin complejidad técnica. Todo visual y explicado en español.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Actualizaciones de Por Vida</h3>
+                <p>Nuevo contenido, herramientas y estrategias agregadas continuamente sin costo extra.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Comunidad Privada</h3>
+                <p>Acceso a grupo exclusivo de emprendedores y agencias haciendo seis/siete cifras.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CURRICULUM SECTION -->
+    <section class="curriculum" id="curriculum">
+        <div class="curriculum-content">
+            <h2 class="section-title">Tu Ruta de Aprendizaje</h2>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <div class="module-number">01</div>
+                    <div class="module-title">Fundamentos</div>
+                    <div class="module-duration">1.5 horas</div>
+                    <ul class="module-items">
+                        <li>¿Por qué Lead Gen es $$$?</li>
+                        <li>Los 5 conceptos clave</li>
+                        <li>Casos de éxito reales</li>
+                        <li>Overview de la plataforma</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <div class="module-number">02</div>
+                    <div class="module-title">Setup e Instalación</div>
+                    <div class="module-duration">1 hora</div>
+                    <ul class="module-items">
+                        <li>Instalación paso a paso</li>
+                        <li>Windows / Mac / Linux</li>
+                        <li>Configuración inicial</li>
+                        <li>Troubleshooting común</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <div class="module-number">03</div>
+                    <div class="module-title">Uso Básico</div>
+                    <div class="module-duration">2.5 horas</div>
+                    <ul class="module-items">
+                        <li>Dashboard tour completo</li>
+                        <li>Tu primera campaña</li>
+                        <li>Importar datos históricos</li>
+                        <li>Monitoreo de resultados</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <div class="module-number">04</div>
+                    <div class="module-title">Configuración Avanzada</div>
+                    <div class="module-duration">3.5 horas</div>
+                    <ul class="module-items">
+                        <li>Personalización de agentes IA</li>
+                        <li>Segmentación multi-criterio</li>
+                        <li>Automatización inteligente</li>
+                        <li>Integración con CRMs</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <div class="module-number">05</div>
+                    <div class="module-title">Casos de Industria</div>
+                    <div class="module-duration">3 horas</div>
+                    <ul class="module-items">
+                        <li>Agencia de marketing</li>
+                        <li>Software B2B</li>
+                        <li>Consultoría / Coaching</li>
+                        <li>Ecommerce / Recruiting</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <div class="module-number">06</div>
+                    <div class="module-title">Escalado</div>
+                    <div class="module-duration">2.5 horas</div>
+                    <ul class="module-items">
+                        <li>De 100 a 10k leads/mes</li>
+                        <li>Optimización continua</li>
+                        <li>Benchmarking real</li>
+                        <li>Gestión de equipos</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <div class="module-number">07</div>
+                    <div class="module-title">Venta y Monetización</div>
+                    <div class="module-duration">3 horas</div>
+                    <ul class="module-items">
+                        <li>4 modelos de negocio</li>
+                        <li>Pricing estratégico</li>
+                        <li>Sales playbook</li>
+                        <li>Proyecciones financieras</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section class="pricing" id="pricing">
+        <h2 class="section-title">Elige Tu Plan</h2>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="plan-name">Starter</div>
+                <div class="price">$49</div>
+                <div class="price-period">Acceso único</div>
+                <ul class="price-features">
+                    <li>Módulos 1-3 (Intro + Setup + Básico)</li>
+                    <li>Acceso de por vida</li>
+                    <li>Actualizaciones futuras</li>
+                    <li>Comunidad por email</li>
+                </ul>
+                <button class="price-button">Comprar Ahora</button>
+            </div>
+
+            <div class="price-card featured">
+                <div class="plan-name">Profesional</div>
+                <div class="price">$197</div>
+                <div class="price-period">Acceso único</div>
+                <ul class="price-features">
+                    <li>Todos los 7 módulos</li>
+                    <li>Acceso de por vida</li>
+                    <li>Actualizaciones continuas</li>
+                    <li>Comunidad privada (Discord)</li>
+                    <li>Templates y plantillas</li>
+                    <li>Bonus: Pitch deck template</li>
+                </ul>
+                <button class="price-button">Comprar Ahora</button>
+            </div>
+
+            <div class="price-card">
+                <div class="plan-name">VIP</div>
+                <div class="price">$497</div>
+                <div class="price-period">Acceso único</div>
+                <ul class="price-features">
+                    <li>Todos los 7 módulos</li>
+                    <li>Acceso de por vida</li>
+                    <li>Comunidad privada</li>
+                    <li>2 office hours mensuales en vivo</li>
+                    <li>1:1 coaching calls (3 sesiones)</li>
+                    <li>Todos los bonus</li>
+                </ul>
+                <button class="price-button">Reservar Ahora</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials" id="testimonials">
+        <div class="testimonials-content">
+            <h2 class="section-title">Lo Que Dicen Nuestros Estudiantes</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-text">"Pasé de 30 a 400 leads/mes en 6 semanas. Este curso es game-changer. Ya estoy vendiendo servicios a otras agencias."</div>
+                    <div class="testimonial-author">Carlos M.</div>
+                    <div class="testimonial-role">Agencia de Marketing Digital</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-text">"El módulo de monetización solo vale la inversión. Ahora tengo 3 clientes pagando $5k/mes por implementación."</div>
+                    <div class="testimonial-author">María L.</div>
+                    <div class="testimonial-role">Consultora de Ventas B2B</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-text">"Sin conocimiento técnico podía armarlo todo en 2 días. Es tan visual que no necesitas ser programador."</div>
+                    <div class="testimonial-author">David R.</div>
+                    <div class="testimonial-role">Coach de Negocios</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta" id="cta">
+        <h2>¿Listo Para Revolucionar Tus Ventas?</h2>
+        <p>Únete a 500+ emprendedores que ya generan leads automáticamente</p>
+        <form class="cta-form" onsubmit="handleSubmit(event)">
+            <input type="email" class="cta-input" placeholder="Tu email" required>
+            <button type="submit" class="cta-submit">Enroll Now</button>
+        </form>
+        <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.8;">Acceso instantáneo. Garantía 30 días devolución total.</p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Claude Class</h4>
+                <ul>
+                    <li><a href="#features">Características</a></li>
+                    <li><a href="#curriculum">Módulos</a></li>
+                    <li><a href="#pricing">Precios</a></li>
+                    <li><a href="#testimonials">Testimonios</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Aprende</h4>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Términos de Servicio</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                    <li><a href="#">Garantía de Devolución</a></li>
+                    <li><a href="#">Cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Claude Class. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            // Aquí puedes integrar con un servicio de email (Mailchimp, ConvertKit, etc)
+            alert(`¡Gracias! Te enviaremos más información a ${email}`);
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>
