@@ -205,4 +205,103 @@ export class LLMService {
     const content = response.content[0].type === 'text' ? response.content[0].text : '{}';
     return JSON.parse(content);
   }
+
+  async generateCompetitorMetrics(
+    brandContext: { brandName: string; industry: string; valueProposition: string; targetAudience: string },
+    competitorName: string,
+  ): Promise<{
+    marketPositionScore: number;
+    shareOfVoice: number;
+    pricingIndex: number;
+    featureScore: number;
+    sentimentScore: number;
+    details: Record<string, any>;
+  }> {
+    const prompt = `
+    You are a competitive intelligence analyst. Based on the brand context below, generate realistic competitive benchmark metrics for the competitor.
+
+    Brand being analyzed: ${brandContext.brandName}
+    Industry: ${brandContext.industry}
+    Value proposition: ${brandContext.valueProposition}
+    Target audience: ${brandContext.targetAudience}
+
+    Competitor to benchmark: ${competitorName}
+
+    Generate realistic competitive metrics on a 0-100 scale:
+    - marketPositionScore: Overall market position strength (0-100)
+    - shareOfVoice: Estimated share of voice/market visibility as percentage (0-100)
+    - pricingIndex: Pricing relative to market average (50 = average, >50 = premium, <50 = budget)
+    - featureScore: Product/service feature completeness score (0-100)
+    - sentimentScore: Brand sentiment score (0-100, where 100 is most positive)
+    - details: An object with keys: strengths (array of strings), weaknesses (array of strings), recentMoves (array of strings), pricingTier (string: "budget"|"mid"|"premium"), contentFrequency (string: "low"|"medium"|"high")
+
+    Return ONLY valid JSON with these exact fields. Use realistic variation, not all competitors are equal.
+    `;
+
+    const response = await this.client.messages.create({
+      model: 'claude-opus-4-6',
+      max_tokens: 1000,
+      messages: [{ role: 'user', content: prompt }],
+    });
+
+    const content = response.content[0].type === 'text' ? response.content[0].text : '{}';
+    try {
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      return jsonMatch ? JSON.parse(jsonMatch[0]) : this.fallbackMetrics();
+    } catch {
+      return this.fallbackMetrics();
+    }
+  }
+
+  async analyzeCompetitiveLandscape(
+    brandContext: { brandName: string; industry: string; valueProposition: string; targetAudience: string },
+    competitors: Array<{ name: string }>,
+    snapshots: Array<{ competitorId: string | null; marketPositionScore: number; shareOfVoice: number; details: any }>,
+  ): Promise<string> {
+    const prompt = `
+    You are a strategic brand analyst. Analyze the competitive landscape for ${brandContext.brandName} in the ${brandContext.industry} industry.
+
+    Brand context:
+    - Value proposition: ${brandContext.valueProposition}
+    - Target audience: ${brandContext.targetAudience}
+
+    Competitors tracked: ${competitors.map(c => c.name).join(', ')}
+
+    Latest competitive snapshot data:
+    ${JSON.stringify(snapshots, null, 2)}
+
+    Provide a concise daily intelligence brief (3-4 short paragraphs) covering:
+    1. Current competitive position summary
+    2. Key threats and opportunities identified today
+    3. Competitor movements worth noting
+    4. One recommended strategic action for the brand to take
+
+    Be specific, data-driven, and actionable. Write in a professional analyst tone.
+    `;
+
+    const response = await this.client.messages.create({
+      model: 'claude-opus-4-6',
+      max_tokens: 800,
+      messages: [{ role: 'user', content: prompt }],
+    });
+
+    return response.content[0].type === 'text' ? response.content[0].text : '';
+  }
+
+  private fallbackMetrics() {
+    return {
+      marketPositionScore: Math.round(40 + Math.random() * 40),
+      shareOfVoice: Math.round(10 + Math.random() * 30),
+      pricingIndex: Math.round(40 + Math.random() * 30),
+      featureScore: Math.round(45 + Math.random() * 40),
+      sentimentScore: Math.round(50 + Math.random() * 30),
+      details: {
+        strengths: ['Brand recognition', 'Market presence'],
+        weaknesses: ['Limited differentiation'],
+        recentMoves: ['Product update'],
+        pricingTier: 'mid',
+        contentFrequency: 'medium',
+      },
+    };
+  }
 }

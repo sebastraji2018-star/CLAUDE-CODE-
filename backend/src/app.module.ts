@@ -15,6 +15,8 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { IntegrationsModule } from './modules/integrations/integrations.module';
 import { AgentOrchestratorModule } from './modules/agent-orchestration/orchestration.module';
 import { LLMModule } from './llm/llm.module';
+import { BrandContextModule } from './modules/brand-context/brand-context.module';
+import { CompetitorTrackingModule } from './modules/competitor-tracking/competitor-tracking.module';
 
 @Module({
   imports: [
@@ -54,6 +56,8 @@ import { LLMModule } from './llm/llm.module';
     IntegrationsModule,
     AgentOrchestratorModule,
     LLMModule,
+    BrandContextModule,
+    CompetitorTrackingModule,
   ],
 })
 export class AppModule {}
