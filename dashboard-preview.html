@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Benchmark Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  body { font-family: 'Inter', -apple-system, sans-serif; }
+  .sidebar { width: 240px; min-height: 100vh; }
+  .gradient-text { background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .pulse-dot { animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0,0,0,.1); transition: all .2s; }
+  .score-bar { height: 6px; border-radius: 9999px; background: #f3f4f6; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 9999px; transition: width 1s ease; }
+  .fade-in { animation: fadeIn .6s ease forwards; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body class="bg-gray-50">
+
+<div class="flex h-screen overflow-hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar bg-gray-900 text-white flex flex-col flex-shrink-0">
+    <div class="p-5 border-b border-gray-700">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-blue-500 flex items-center justify-center text-lg">🎯</div>
+        <div>
+          <div class="font-bold text-sm">Brand</div>
+          <div class="text-blue-400 font-bold text-sm">Benchmark</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-4 mt-4 mb-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center gap-2">
+      <span class="pulse-dot w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></span>
+      <span class="text-xs text-blue-400 font-medium">⚡ Análisis 24/7 activo</span>
+    </div>
+
+    <nav class="flex-1 p-3 space-y-1 mt-2">
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-800">
+        <span>📊</span> Resumen
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-800">
+        <span>⚙️</span> Configurar Marca
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-blue-500 text-white">
+        <span>📈</span> Benchmark
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-800">
+        <span>💡</span> Insights IA
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-700">
+      <div class="text-xs text-gray-500 flex items-center gap-1.5">
+        <span>🔄</span> Actualización diaria automática
+      </div>
+      <div class="text-xs text-gray-600 mt-1">Último análisis: hoy 08:14 AM</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto">
+
+    <!-- HEADER -->
+    <div class="bg-white border-b border-gray-100 px-8 py-4 flex items-center justify-between sticky top-0 z-10">
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-xl font-bold text-gray-900">Benchmark Competitivo</h1>
+          <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full font-medium">SaaS</span>
+        </div>
+        <p class="text-xs text-gray-400 mt-0.5">MiEmpresa vs 4 competidores · Actualizado hace 2 minutos</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="flex items-center gap-1.5 text-sm text-gray-500 border border-gray-200 px-3 py-2 rounded-lg hover:bg-gray-50">
+          ⚙️ Editar Marca
+        </button>
+        <button onclick="simulateRefresh(this)" class="flex items-center gap-1.5 text-sm text-white bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded-lg">
+          🔄 <span>Actualizar Análisis</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="p-8 space-y-6 fade-in">
+
+      <!-- KPI CARDS -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm card-hover">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-xl">📈</div>
+            <span class="text-xs font-semibold px-2 py-1 rounded-full bg-green-100 text-green-600 flex items-center gap-1">▲ 8%</span>
+          </div>
+          <div class="text-3xl font-bold text-blue-500">72<span class="text-gray-300 text-base">/100</span></div>
+          <div class="text-sm font-semibold text-gray-800 mt-1">Score Competitivo</div>
+          <div class="text-xs text-gray-400 mt-0.5">Prom. competidores: 64</div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm card-hover">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-xl">📣</div>
+            <span class="text-xs font-semibold px-2 py-1 rounded-full bg-green-100 text-green-600 flex items-center gap-1">▲ 4%</span>
+          </div>
+          <div class="text-3xl font-bold text-purple-500">34<span class="text-gray-300 text-base">%</span></div>
+          <div class="text-sm font-semibold text-gray-800 mt-1">Share of Voice</div>
+          <div class="text-xs text-gray-400 mt-0.5">Prom. mercado: 25%</div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm card-hover">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-xl">⭐</div>
+            <span class="text-xs font-semibold px-2 py-1 rounded-full bg-red-100 text-red-500 flex items-center gap-1">▼ 2%</span>
+          </div>
+          <div class="text-3xl font-bold text-green-500">81<span class="text-gray-300 text-base">/100</span></div>
+          <div class="text-sm font-semibold text-gray-800 mt-1">Sentimiento de Marca</div>
+          <div class="text-xs text-gray-400 mt-0.5">Muy positivo vs ayer</div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm card-hover">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-xl">⚡</div>
+            <span class="text-xs font-semibold px-2 py-1 rounded-full bg-green-100 text-green-600 flex items-center gap-1">▲ 5%</span>
+          </div>
+          <div class="text-3xl font-bold text-orange-500">68<span class="text-gray-300 text-base">/100</span></div>
+          <div class="text-sm font-semibold text-gray-800 mt-1">Score de Producto</div>
+          <div class="text-xs text-gray-400 mt-0.5">3 features nuevas detectadas</div>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- LINE CHART -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+          <h3 class="font-semibold text-gray-900 mb-4">Posición Competitiva — 30 días</h3>
+          <canvas id="trendChart" height="200"></canvas>
+        </div>
+
+        <!-- RADAR CHART -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+          <h3 class="font-semibold text-gray-900 mb-4">Comparación Multidimensional</h3>
+          <canvas id="radarChart" height="200"></canvas>
+        </div>
+      </div>
+
+      <!-- COMPARISON TABLE -->
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-50 flex items-center justify-between">
+          <h3 class="font-semibold text-gray-900">Comparación Detallada</h3>
+          <span class="text-xs text-gray-400">Datos de hoy · 5 marcas</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-gray-50/80">
+                <th class="text-left text-xs font-semibold text-gray-500 px-6 py-3">Marca</th>
+                <th class="text-left text-xs font-semibold text-gray-500 px-4 py-3 min-w-[130px]">Posición</th>
+                <th class="text-left text-xs font-semibold text-gray-500 px-4 py-3 min-w-[130px]">Share of Voice</th>
+                <th class="text-left text-xs font-semibold text-gray-500 px-4 py-3 min-w-[130px]">Precio</th>
+                <th class="text-left text-xs font-semibold text-gray-500 px-4 py-3 min-w-[130px]">Producto</th>
+                <th class="text-left text-xs font-semibold text-gray-500 px-4 py-3 min-w-[130px]">Sentimiento</th>
+                <th class="text-left text-xs font-semibold text-gray-500 px-4 py-3">Tendencia</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AI INSIGHTS FEED -->
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-50 flex items-center gap-2">
+          <span class="text-blue-500">⚡</span>
+          <h3 class="font-semibold text-gray-900">Insights Diarios de IA</h3>
+          <span class="ml-auto text-xs text-gray-400">Generado por Claude AI</span>
+        </div>
+
+        <div class="divide-y divide-gray-50">
+          <div class="px-6 py-5 bg-blue-50/40">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-semibold bg-blue-500 text-white px-2 py-0.5 rounded-full">Hoy · lun 30 mar</span>
+            </div>
+            <p class="text-sm text-gray-700 leading-relaxed">
+              <strong>Posición actual:</strong> MiEmpresa mantiene una ventaja de 8 puntos sobre el promedio competitivo (72 vs 64), liderada por un sentimiento de marca excepcionalmente alto (81/100). El share of voice del 34% supera significativamente al mercado.
+            </p>
+            <p class="text-sm text-gray-700 leading-relaxed mt-2">
+              <strong>Oportunidad detectada:</strong> CompetidorB redujo su pricing esta semana (índice bajó de 68 a 55), lo que podría indicar presión en su base de clientes. Ventana para campañas de adquisición agresivas en el segmento mid-market.
+            </p>
+            <p class="text-sm text-gray-700 leading-relaxed mt-2">
+              <strong>Alerta:</strong> CompetidorA lanzó 3 nuevas integraciones (score de producto subió 12 pts). Considerar acelerar el roadmap de integraciones nativas para Q2.
+            </p>
+            <p class="text-sm text-gray-600 leading-relaxed mt-2">
+              <strong>Recomendación estratégica:</strong> Capitalizar el sentimiento positivo con una campaña de testimonials y casos de éxito. El momento de mercado es favorable para aumentar precios en el tier Enterprise sin afectar conversiones.
+            </p>
+          </div>
+
+          <div class="px-6 py-4">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs text-gray-400">dom 29 mar</span>
+            </div>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              El fin de semana mostró estabilidad general en el mercado. CompetidorC incrementó su frecuencia de contenido en redes (de "medio" a "alto"), posiblemente pre-lanzamiento. El score competitivo de MiEmpresa se mantuvo en 70 sin cambios significativos.
+            </p>
+          </div>
+
+          <div class="px-6 py-4">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs text-gray-400">sáb 28 mar</span>
+            </div>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Semana finaliza con MiEmpresa en posición de liderazgo. El share of voice subió 2pp respecto a la semana previa. CompetidorD muestra debilidades en producto (52/100), area de oportunidad para mensajería diferenciada.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /p-8 -->
+  </main>
+</div>
+
+<script>
+// --- MOCK DATA ---
+const competitors = [
+  { name: 'MiEmpresa', own: true, color: '#3b82f6', pos: 72, sov: 34, price: 70, feat: 68, sent: 81, trend: 8 },
+  { name: 'CompetidorA', own: false, color: '#8b5cf6', pos: 68, sov: 28, price: 82, feat: 80, sent: 65, trend: 5 },
+  { name: 'CompetidorB', own: false, color: '#10b981', pos: 61, sov: 22, price: 55, feat: 59, sent: 70, trend: -3 },
+  { name: 'CompetidorC', own: false, color: '#f59e0b', pos: 65, sov: 31, price: 73, feat: 63, sent: 68, trend: 2 },
+  { name: 'CompetidorD', own: false, color: '#ef4444', pos: 55, sov: 18, price: 48, feat: 52, sent: 58, trend: -1 },
+];
+
+// --- TABLE ---
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = competitors.map((c, i) => `
+    <tr class="border-t border-gray-50 hover:bg-gray-50/50 transition-colors ${c.own ? 'bg-blue-50/30' : ''}">
+      <td class="px-6 py-4">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background:${c.color}"></div>
+          <span class="text-sm font-semibold text-gray-900">${c.name}</span>
+          ${c.own ? '<span class="text-xs text-blue-500 bg-blue-100 px-1.5 py-0.5 rounded-full">Tu marca</span>' : ''}
+        </div>
+      </td>
+      ${['pos','sov','price','feat','sent'].map(k => `
+        <td class="px-4 py-4">
+          <div class="flex items-center gap-2">
+            <div class="score-bar flex-1"><div class="score-fill" style="width:${c[k]}%;background:${c.color}"></div></div>
+            <span class="text-xs font-semibold text-gray-700 w-7 text-right">${c[k]}</span>
+          </div>
+        </td>
+      `).join('')}
+      <td class="px-4 py-4">
+        <span class="text-xs font-semibold ${c.trend > 0 ? 'text-green-600' : c.trend < 0 ? 'text-red-500' : 'text-gray-400'}">
+          ${c.trend > 0 ? '▲' : c.trend < 0 ? '▼' : '—'} ${Math.abs(c.trend)}%
+        </span>
+      </td>
+    </tr>
+  `).join('');
+}
+renderTable();
+
+// --- LINE CHART ---
+const days = Array.from({length: 30}, (_, i) => {
+  const d = new Date(); d.setDate(d.getDate() - 29 + i);
+  return d.toLocaleDateString('es-MX', {day:'numeric', month:'short'});
+});
+
+function makeData(base, noise = 8) {
+  let v = base;
+  return days.map(() => { v += (Math.random() - 0.48) * noise; return Math.max(30, Math.min(95, Math.round(v))); });
+}
+
+new Chart(document.getElementById('trendChart'), {
+  type: 'line',
+  data: {
+    labels: days.filter((_, i) => i % 5 === 0 || i === 29),
+    datasets: competitors.map(c => ({
+      label: c.name,
+      data: makeData(c.pos),
+      borderColor: c.color,
+      backgroundColor: 'transparent',
+      borderWidth: c.own ? 3 : 1.5,
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+    }))
+  },
+  options: {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { labels: { font: { size: 11 }, boxWidth: 10, padding: 16 } },
+      tooltip: { backgroundColor: '#fff', titleColor: '#374151', bodyColor: '#6b7280', borderColor: '#e5e7eb', borderWidth: 1, cornerRadius: 12, padding: 10 }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#9ca3af' } },
+      y: { min: 30, max: 100, grid: { color: '#f9fafb' }, ticks: { font: { size: 10 }, color: '#9ca3af' } }
+    }
+  }
+});
+
+// --- RADAR CHART ---
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Posición', 'Share of Voice', 'Precio', 'Producto', 'Sentimiento'],
+    datasets: competitors.map(c => ({
+      label: c.name,
+      data: [c.pos, c.sov, c.price, c.feat, c.sent],
+      borderColor: c.color,
+      backgroundColor: c.color + '18',
+      borderWidth: c.own ? 2.5 : 1.5,
+      pointRadius: 3,
+    }))
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { labels: { font: { size: 11 }, boxWidth: 10, padding: 14 } }
+    },
+    scales: {
+      r: {
+        min: 0, max: 100,
+        ticks: { display: false },
+        grid: { color: '#f0f0f0' },
+        pointLabels: { font: { size: 11 }, color: '#6b7280' }
+      }
+    }
+  }
+});
+
+// --- REFRESH SIMULATION ---
+function simulateRefresh(btn) {
+  const span = btn.querySelector('span');
+  span.textContent = 'Analizando con IA...';
+  btn.disabled = true;
+  btn.classList.add('opacity-75');
+  setTimeout(() => {
+    span.textContent = '✓ Actualizado';
+    btn.classList.remove('opacity-75');
+    setTimeout(() => {
+      span.textContent = 'Actualizar Análisis';
+      btn.disabled = false;
+    }, 2000);
+  }, 2500);
+}
+</script>
+</body>
+</html>
