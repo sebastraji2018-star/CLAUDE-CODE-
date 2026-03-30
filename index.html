@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Brand Benchmark Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8fafc;color:#1e293b;font-size:14px}
+.app{display:flex;min-height:100vh}
+.sidebar{width:230px;background:#0f172a;color:#fff;display:flex;flex-direction:column;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-logo{padding:20px;border-bottom:1px solid #1e293b;display:flex;align-items:center;gap:10px}
+.logo-icon{width:36px;height:36px;background:#3b82f6;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.logo-text{font-weight:700;font-size:13px;line-height:1.3}
+.logo-text span{color:#60a5fa}
+.ai-badge{margin:14px 14px 6px;padding:7px 12px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);border-radius:20px;display:flex;align-items:center;gap:8px;font-size:11px;color:#60a5fa;font-weight:600}
+.dot{width:7px;height:7px;border-radius:50%;background:#3b82f6;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+nav{padding:10px;flex:1}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:#94a3b8;font-size:13px;font-weight:500;cursor:pointer;margin-bottom:2px;transition:all .15s;text-decoration:none}
+.nav-item:hover{background:#1e293b;color:#fff}
+.nav-item.active{background:#3b82f6;color:#fff}
+.nav-icon{font-size:16px;width:20px;text-align:center}
+.sidebar-footer{padding:14px;border-top:1px solid #1e293b;font-size:11px;color:#475569}
+.main{flex:1;overflow-x:hidden}
+.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar-left h1{font-size:18px;font-weight:700;color:#0f172a}
+.topbar-left p{font-size:11px;color:#94a3b8;margin-top:2px}
+.badge-industry{background:#eff6ff;color:#3b82f6;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;margin-left:8px}
+.topbar-right{display:flex;gap:8px}
+.btn{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.btn-outline{background:transparent;border:1px solid #e2e8f0;color:#64748b}
+.btn-primary{background:#3b82f6;color:#fff}
+.content{padding:24px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.kpi-card{background:#fff;border-radius:16px;padding:18px;border:1px solid #e2e8f0;transition:all .2s}
+.kpi-card:hover{box-shadow:0 8px 25px -5px rgba(0,0,0,.1);transform:translateY(-2px)}
+.kpi-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.kpi-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.kpi-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:3px}
+.badge-up{background:#dcfce7;color:#16a34a}
+.badge-down{background:#fef2f2;color:#dc2626}
+.kpi-value{font-size:30px;font-weight:800}
+.kpi-unit{font-size:14px;font-weight:400;color:#cbd5e1;margin-left:2px}
+.kpi-label{font-size:12px;font-weight:600;color:#334155;margin-top:4px}
+.kpi-sub{font-size:11px;color:#94a3b8;margin-top:2px}
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.chart-card{background:#fff;border-radius:16px;padding:18px;border:1px solid #e2e8f0}
+.chart-title{font-size:13px;font-weight:700;color:#0f172a;margin-bottom:14px}
+canvas{display:block}
+.table-card{background:#fff;border-radius:16px;border:1px solid #e2e8f0;overflow:hidden;margin-bottom:20px}
+.table-header{padding:14px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+.table-header h3{font-size:13px;font-weight:700;color:#0f172a}
+.table-header span{font-size:11px;color:#94a3b8}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;font-weight:600;color:#94a3b8;padding:10px 16px;background:#f8fafc;border-bottom:1px solid #f1f5f9;white-space:nowrap}
+td{padding:12px 16px;border-bottom:1px solid #f8fafc;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbfc}
+.own-row td{background:#eff6ff !important}
+.brand-cell{display:flex;align-items:center;gap:8px}
+.color-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.brand-name{font-size:13px;font-weight:600;color:#0f172a}
+.own-tag{font-size:10px;background:#dbeafe;color:#3b82f6;padding:1px 6px;border-radius:20px;font-weight:600;margin-left:4px}
+.score-wrap{display:flex;align-items:center;gap:8px;min-width:110px}
+.score-bar{flex:1;height:5px;background:#f1f5f9;border-radius:9999px;overflow:hidden}
+.score-fill{height:100%;border-radius:9999px}
+.score-num{font-size:12px;font-weight:600;color:#334155;min-width:24px;text-align:right}
+.trend-cell{font-size:11px;font-weight:700}
+.trend-up{color:#16a34a}
+.trend-down{color:#dc2626}
+.insights-card{background:#fff;border-radius:16px;border:1px solid #e2e8f0;overflow:hidden}
+.insights-header{padding:14px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:8px}
+.insights-header h3{font-size:13px;font-weight:700;color:#0f172a;flex:1}
+.insights-header span{font-size:11px;color:#94a3b8}
+.insight-item{padding:18px 20px;border-bottom:1px solid #f8fafc}
+.insight-item:last-child{border-bottom:none}
+.insight-item.today{background:#eff6ff}
+.insight-date{font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:6px;margin-bottom:10px}
+.today-badge{background:#3b82f6;color:#fff;padding:1px 8px;border-radius:20px;font-size:10px;font-weight:700}
+.insight-text{font-size:12px;color:#475569;line-height:1.7}
+.insight-text strong{color:#0f172a;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#64748b}
+.legend-line{width:18px;height:2.5px;border-radius:2px}
+@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.sidebar{display:none}}
+@media(max-width:600px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.content{padding:14px}.topbar{padding:12px 16px}.topbar-left h1{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="sidebar-logo"><div class="logo-icon">🎯</div><div class="logo-text">Brand<br><span>Benchmark</span></div></div>
+  <div class="ai-badge"><div class="dot"></div> Análisis 24/7 activo</div>
+  <nav>
+    <a class="nav-item" href="#"><span class="nav-icon">📊</span> Resumen</a>
+    <a class="nav-item" href="#"><span class="nav-icon">⚙️</span> Configurar Marca</a>
+    <a class="nav-item active" href="#"><span class="nav-icon">📈</span> Benchmark</a>
+    <a class="nav-item" href="#"><span class="nav-icon">💡</span> Insights IA</a>
+  </nav>
+  <div class="sidebar-footer">🔄 Actualización diaria automática<br><span style="color:#334155">Último análisis: hoy 08:14 AM</span></div>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1>Benchmark Competitivo <span class="badge-industry">SaaS</span></h1>
+      <p>MiEmpresa vs 4 competidores &nbsp;·&nbsp; Actualizado hace 2 minutos</p>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-outline">⚙️ Editar</button>
+      <button class="btn btn-primary" id="refreshBtn" onclick="handleRefresh()">🔄 Actualizar Análisis</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon" style="background:#eff6ff">📈</div><span class="kpi-badge badge-up">▲ 8%</span></div><div class="kpi-value" style="color:#3b82f6">72<span class="kpi-unit">/100</span></div><div class="kpi-label">Score Competitivo</div><div class="kpi-sub">Prom. competidores: 64</div></div>
+      <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon" style="background:#faf5ff">📣</div><span class="kpi-badge badge-up">▲ 4%</span></div><div class="kpi-value" style="color:#8b5cf6">34<span class="kpi-unit">%</span></div><div class="kpi-label">Share of Voice</div><div class="kpi-sub">Prom. mercado: 25%</div></div>
+      <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon" style="background:#f0fdf4">⭐</div><span class="kpi-badge badge-down">▼ 2%</span></div><div class="kpi-value" style="color:#22c55e">81<span class="kpi-unit">/100</span></div><div class="kpi-label">Sentimiento</div><div class="kpi-sub">Muy positivo</div></div>
+      <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon" style="background:#fff7ed">⚡</div><span class="kpi-badge badge-up">▲ 5%</span></div><div class="kpi-value" style="color:#f97316">68<span class="kpi-unit">/100</span></div><div class="kpi-label">Producto</div><div class="kpi-sub">3 features nuevas</div></div>
+    </div>
+    <div class="charts-row">
+      <div class="chart-card"><div class="chart-title">📉 Posición Competitiva — 30 días</div><canvas id="lineChart" width="480" height="220"></canvas><div class="legend" id="lineLegend"></div></div>
+      <div class="chart-card"><div class="chart-title">🕸️ Comparación Multidimensional</div><canvas id="radarChart" width="340" height="260"></canvas><div class="legend" id="radarLegend"></div></div>
+    </div>
+    <div class="table-card">
+      <div class="table-header"><h3>Comparación Detallada</h3><span>Datos de hoy · 5 marcas</span></div>
+      <div style="overflow-x:auto"><table><thead><tr><th>Marca</th><th>Posición</th><th>Share of Voice</th><th>Precio</th><th>Producto</th><th>Sentimiento</th><th>Tend.</th></tr></thead><tbody id="tableBody"></tbody></table></div>
+    </div>
+    <div class="insights-card">
+      <div class="insights-header"><span style="font-size:16px">⚡</span><h3>Insights Diarios de IA</h3><span>Generado por Claude AI</span></div>
+      <div class="insight-item today"><div class="insight-date"><span>📅</span> lun 30 mar 2026 <span class="today-badge">Último</span></div><div class="insight-text"><strong>Posición actual:</strong> MiEmpresa mantiene ventaja de 8 pts sobre el promedio competitivo (72 vs 64). Sentimiento en máximos históricos (81/100).<br><br><strong>Oportunidad:</strong> CompetidorB bajó precios (68→55). Ventana para campañas de adquisición en mid-market.<br><br><strong>Alerta:</strong> CompetidorA lanzó 3 integraciones nuevas (+12 pts producto). Acelerar roadmap Q2.<br><br><strong>Recomendación:</strong> Lanzar campaña de testimonials y evaluar aumento de precios en tier Enterprise.</div></div>
+      <div class="insight-item"><div class="insight-date"><span>📅</span> dom 29 mar 2026</div><div class="insight-text">Estabilidad general. CompetidorC incrementó frecuencia de contenido. Score de MiEmpresa estable en 70.</div></div>
+      <div class="insight-item"><div class="insight-date"><span>📅</span> sáb 28 mar 2026</div><div class="insight-text">Cierre de semana positivo. SoV subió 2pp. CompetidorD débil en producto (52/100), oportunidad de diferenciación.</div></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+const BRANDS=[{name:'MiEmpresa',own:true,color:'#3b82f6',pos:72,sov:34,price:70,feat:68,sent:81,trend:8},{name:'CompetidorA',own:false,color:'#8b5cf6',pos:68,sov:28,price:82,feat:80,sent:65,trend:5},{name:'CompetidorB',own:false,color:'#10b981',pos:61,sov:22,price:55,feat:59,sent:70,trend:-3},{name:'CompetidorC',own:false,color:'#f59e0b',pos:65,sov:31,price:73,feat:63,sent:68,trend:2},{name:'CompetidorD',own:false,color:'#ef4444',pos:55,sov:18,price:48,feat:52,sent:58,trend:-1}];
+function renderTable(){const tbody=document.getElementById('tableBody');tbody.innerHTML=BRANDS.map(b=>{const cols=['pos','sov','price','feat','sent'].map(k=>`<td><div class="score-wrap"><div class="score-bar"><div class="score-fill" style="width:${b[k]}%;background:${b.color}"></div></div><span class="score-num">${b[k]}</span></div></td>`).join('');const tClass=b.trend>0?'trend-up':'trend-down';const tLabel=b.trend>0?`▲ ${b.trend}%`:`▼ ${Math.abs(b.trend)}%`;return`<tr class="${b.own?'own-row':''}"><td><div class="brand-cell"><div class="color-dot" style="background:${b.color}"></div><span class="brand-name">${b.name}</span>${b.own?'<span class="own-tag">Tu marca</span>':''}</div></td>${cols}<td><span class="trend-cell ${tClass}">${tLabel}</span></td></tr>`;}).join('');}
+renderTable();
+function setupCanvas(canvas){const r=window.devicePixelRatio||1;const w=canvas.offsetWidth||canvas.width;const h=canvas.offsetHeight||canvas.height;canvas.width=w*r;canvas.height=h*r;canvas.style.width=w+'px';canvas.style.height=h+'px';const ctx=canvas.getContext('2d');ctx.scale(r,r);return{ctx,w,h};}
+function drawLineChart(){const canvas=document.getElementById('lineChart');canvas.style.width='100%';const containerW=canvas.parentElement.offsetWidth-36;canvas.width=containerW;canvas.height=220;const{ctx,w,h}=setupCanvas(canvas);const pad={top:10,right:20,bottom:30,left:36};const cw=w-pad.left-pad.right;const ch=h-pad.top-pad.bottom;function seeded(seed,base){let s=seed,v=base;return Array.from({length:30},(_,i)=>{s=(s*1664525+1013904223)&0xffffffff;v+=((s/0x7fffffff)-0.5)*7;v=Math.max(35,Math.min(92,v));return Math.round(v);});}const datasets=BRANDS.map((b,i)=>seeded(i*7919+42,b.pos));const allVals=datasets.flat();const minV=Math.floor(Math.min(...allVals)/10)*10;const maxV=Math.ceil(Math.max(...allVals)/10)*10;const xStep=cw/29;const yScale=v=>pad.top+ch-((v-minV)/(maxV-minV))*ch;ctx.strokeStyle='#f1f5f9';ctx.lineWidth=1;for(let v=minV;v<=maxV;v+=10){const y=yScale(v);ctx.beginPath();ctx.moveTo(pad.left,y);ctx.lineTo(pad.left+cw,y);ctx.stroke();ctx.fillStyle='#94a3b8';ctx.font='10px sans-serif';ctx.textAlign='right';ctx.fillText(v,pad.left-5,y+3);}const now=new Date();ctx.fillStyle='#94a3b8';ctx.font='10px sans-serif';ctx.textAlign='center';[0,5,10,15,20,25,29].forEach(i=>{const d=new Date(now);d.setDate(d.getDate()-29+i);ctx.fillText(d.getDate()+'/'+(d.getMonth()+1),pad.left+i*xStep,h-6);});datasets.forEach((data,bi)=>{const b=BRANDS[bi];ctx.beginPath();data.forEach((v,i)=>{const x=pad.left+i*xStep;const y=yScale(v);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.strokeStyle=b.color;ctx.lineWidth=b.own?3:1.5;ctx.lineJoin='round';ctx.globalAlpha=b.own?1:0.7;ctx.stroke();ctx.globalAlpha=1;});document.getElementById('lineLegend').innerHTML=BRANDS.map(b=>`<div class="legend-item"><div class="legend-line" style="background:${b.color};height:${b.own?3:2}px"></div>${b.name}</div>`).join('');}
+function drawRadarChart(){const canvas=document.getElementById('radarChart');const size=Math.min(canvas.parentElement.offsetWidth-36,320);canvas.width=size;canvas.height=size;const{ctx,w,h}=setupCanvas(canvas);const cx=w/2,cy=h/2,r=Math.min(w,h)/2-40;const dims=['Posición','SoV','Precio','Producto','Sentim.'];const angles=dims.map((_,i)=>(Math.PI*2*i/5)-Math.PI/2);[0.25,0.5,0.75,1].forEach(frac=>{ctx.beginPath();angles.forEach((a,i)=>{const x=cx+Math.cos(a)*r*frac;const y=cy+Math.sin(a)*r*frac;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.closePath();ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;ctx.stroke();});angles.forEach(a=>{ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;ctx.stroke();});ctx.fillStyle='#64748b';ctx.font='bold 10px sans-serif';ctx.textAlign='center';dims.forEach((dim,i)=>{const a=angles[i];ctx.fillText(dim,cx+Math.cos(a)*(r+22),cy+Math.sin(a)*(r+22)+4);});BRANDS.forEach(b=>{const vals=[b.pos,b.sov,b.price,b.feat,b.sent];ctx.beginPath();angles.forEach((a,i)=>{const frac=vals[i]/100;const x=cx+Math.cos(a)*r*frac;const y=cy+Math.sin(a)*r*frac;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.closePath();ctx.fillStyle=b.color+'22';ctx.fill();ctx.strokeStyle=b.color;ctx.lineWidth=b.own?2.5:1.5;ctx.globalAlpha=b.own?1:0.75;ctx.stroke();ctx.globalAlpha=1;});document.getElementById('radarLegend').innerHTML=BRANDS.map(b=>`<div class="legend-item"><div class="legend-line" style="background:${b.color}"></div>${b.name}</div>`).join('');}
+function handleRefresh(){const btn=document.getElementById('refreshBtn');btn.textContent='⏳ Analizando...';btn.disabled=true;setTimeout(()=>{btn.textContent='✅ Listo';setTimeout(()=>{btn.textContent='🔄 Actualizar Análisis';btn.disabled=false;},2000);},2800);}
+window.addEventListener('load',()=>{drawLineChart();drawRadarChart();});
+window.addEventListener('resize',()=>{drawLineChart();drawRadarChart();});
+</script>
+</body>
+</html>
