@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ecosistema Digital — Top Underwear Brand</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:    #0a0a0a;
+      --charcoal: #141414;
+      --dark:     #1c1c1c;
+      --gold:     #c9a84c;
+      --gold-lt:  #e8c97a;
+      --white:    #f5f5f5;
+      --muted:    #888888;
+      --accent:   #d4af6a;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--charcoal);
+      border-bottom: 1px solid #2a2a2a;
+      padding: 40px 60px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-logo {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .brand-logo .label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .brand-logo h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--white);
+    }
+    .brand-logo h1 span { color: var(--gold); }
+    .header-meta {
+      text-align: right;
+    }
+    .header-meta p {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .header-meta .doc-title {
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* ── HERO BAND ── */
+    .hero-band {
+      background: linear-gradient(135deg, #1a1408 0%, #0a0a0a 50%, #141008 100%);
+      border-bottom: 1px solid #2a2a2a;
+      padding: 50px 60px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    .hero-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 90px;
+      font-weight: 700;
+      color: #222;
+      line-height: 1;
+      user-select: none;
+    }
+    .hero-text h2 {
+      font-size: 11px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .hero-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+    }
+    .hero-text p {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      max-width: 520px;
+      line-height: 1.8;
+    }
+    .gold-line {
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+      margin: 16px 0;
+    }
+
+    /* ── MAIN GRID ── */
+    main {
+      padding: 60px;
+    }
+    .section-intro {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-intro .pill {
+      display: inline-block;
+      background: #1e1a0e;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    .section-intro h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .section-intro p {
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* ── CHANNEL CARDS ── */
+    .channels-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .channels-grid.row-2 {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 66.666%;
+    }
+
+    .channel-card {
+      background: var(--charcoal);
+      border: 1px solid #242424;
+      border-top: 3px solid var(--gold);
+      padding: 32px 28px;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .channel-card:hover {
+      border-color: var(--gold-lt);
+      transform: translateY(-4px);
+    }
+    .channel-card .card-number {
+      position: absolute;
+      top: 20px;
+      right: 22px;
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 700;
+      color: #1f1f1f;
+      user-select: none;
+    }
+    .channel-card .card-icon {
+      width: 44px;
+      height: 44px;
+      background: #1e1a0e;
+      border: 1px solid #3a3020;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .channel-card .card-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--gold);
+    }
+    .channel-card .card-tag {
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .channel-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+    .channel-card .role-label {
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .channel-card .role-desc {
+      font-size: 13px;
+      color: #b0b0b0;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+    .channel-card .kpis {
+      border-top: 1px solid #2a2a2a;
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .channel-card .kpi-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 11.5px;
+      color: #888;
+      line-height: 1.5;
+    }
+    .channel-card .kpi-item::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      min-width: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      margin-top: 6px;
+    }
+    .channel-card .funnel-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 5px 10px;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--gold-lt);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .channel-card .funnel-badge .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    /* ── FLOW DIAGRAM ── */
+    .flow-section {
+      margin-top: 70px;
+    }
+    .flow-section h4 {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    .flow-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .flow-node {
+      background: var(--charcoal);
+      border: 1px solid #2a2a2a;
+      border-top: 2px solid var(--gold);
+      padding: 20px 24px;
+      text-align: center;
+      min-width: 140px;
+    }
+    .flow-node .fn-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .flow-node .fn-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .flow-node .fn-name {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .flow-arrow {
+      color: var(--gold);
+      font-size: 20px;
+      padding: 0 8px;
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 70px;
+      border-top: 1px solid #1f1f1f;
+      padding: 30px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer p {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #444;
+      text-transform: uppercase;
+    }
+    footer .gold-tag {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .channels-grid { grid-template-columns: repeat(2, 1fr); }
+      .channels-grid.row-2 { grid-template-columns: 1fr 1fr; max-width: 100%; }
+      main { padding: 40px 30px; }
+      header, footer { padding: 30px; }
+      .hero-band { padding: 40px 30px; }
+    }
+    @media (max-width: 700px) {
+      .channels-grid, .channels-grid.row-2 { grid-template-columns: 1fr; max-width: 100%; }
+      .hero-number { font-size: 60px; }
+      .hero-text h3 { font-size: 26px; }
+      header { flex-direction: column; gap: 20px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="brand-logo">
+    <span class="label">Strategic Brief — Digital</span>
+    <h1>TOP <span>UNDERWEAR</span></h1>
+  </div>
+  <div class="header-meta">
+    <p>Documento estratégico</p>
+    <p class="doc-title">Ecosistema Digital 2024–2025</p>
+  </div>
+</header>
+
+<!-- HERO BAND -->
+<div class="hero-band">
+  <div class="hero-number">III</div>
+  <div class="hero-text">
+    <h2>Sección Tres</h2>
+    <h3>Definir un<br/>Ecosistema Digital</h3>
+    <div class="gold-line"></div>
+    <p>Cada canal opera con un rol estratégico claro dentro del funnel de conversión. El ecosistema trabaja de forma integrada para atraer, enamorar, convertir y retener al consumidor de underwear premium.</p>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main>
+
+  <div class="section-intro">
+    <div class="pill">Canales &amp; Roles Asignados</div>
+    <h4>Los 5 Pilares del Ecosistema</h4>
+    <p>Cada touchpoint tiene una función no negociable. Ningún canal duplica el trabajo del otro — juntos forman un ciclo de adquisición, conversión y fidelización.</p>
+  </div>
+
+  <!-- ROW 1: 3 cards -->
+  <div class="channels-grid">
+
+    <!-- 1. WEB -->
+    <div class="channel-card">
+      <div class="card-number">01</div>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      </div>
+      <div class="card-tag">Canal 01</div>
+      <h3>Sitio Web</h3>
+      <div class="funnel-badge"><span class="dot"></span>Hub Central / Conversión</div>
+      <div class="role-label">Rol Principal</div>
+      <p class="role-desc">Es el activo digital más importante de la marca. Funciona como el centro de todo el ecosistema: aquí llega el tráfico de todos los canales y se cierra la venta.</p>
+      <div class="kpis">
+        <div class="kpi-item">E-commerce propio con experiencia de marca premium (UX/UI de lujo)</div>
+        <div class="kpi-item">Landing pages por campaña y por producto héroe</div>
+        <div class="kpi-item">SEO para captura de demanda orgánica</div>
+        <div class="kpi-item">Pixel de retargeting y captura de datos 1st party</div>
+        <div class="kpi-item">Blog / contenido editorial que refuerza posicionamiento de marca</div>
+      </div>
+    </div>
+
+    <!-- 2. REDES SOCIALES -->
+    <div class="channel-card">
+      <div class="card-number">02</div>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      </div>
+      <div class="card-tag">Canal 02</div>
+      <h3>Redes Sociales</h3>
+      <div class="funnel-badge"><span class="dot"></span>Awareness / Deseo / Comunidad</div>
+      <div class="role-label">Rol Principal</div>
+      <p class="role-desc">Son el escaparate visual de la marca. Crean aspiración, construyen comunidad y generan tráfico calificado hacia el web. Cada plataforma tiene un rol específico.</p>
+      <div class="kpis">
+        <div class="kpi-item"><strong style="color:#c9a84c">Instagram:</strong> Branding aspiracional, catálogo visual, Reels de producto y lifestyle</div>
+        <div class="kpi-item"><strong style="color:#c9a84c">TikTok:</strong> Awareness masivo, contenido UGC, viralidad y nuevas audiencias</div>
+        <div class="kpi-item"><strong style="color:#c9a84c">Pinterest:</strong> Inspiración de moda, SEO visual, tráfico orgánico de intención alta</div>
+        <div class="kpi-item"><strong style="color:#c9a84c">Facebook:</strong> Pauta paga, retargeting, audiencias lookalike y campañas de conversión</div>
+      </div>
+    </div>
+
+    <!-- 3. CRM / EMAIL -->
+    <div class="channel-card">
+      <div class="card-number">03</div>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </div>
+      <div class="card-tag">Canal 03</div>
+      <h3>CRM &amp; Email / SMS</h3>
+      <div class="funnel-badge"><span class="dot"></span>Retención / Fidelización / LTV</div>
+      <div class="role-label">Rol Principal</div>
+      <p class="role-desc">Es el canal de mayor ROI en fashion e-commerce. Nutre la relación post-compra, reactiva clientes dormidos y maximiza el valor de vida del cliente.</p>
+      <div class="kpis">
+        <div class="kpi-item">Flujos automáticos: bienvenida, abandono de carrito, post-compra, reactivación</div>
+        <div class="kpi-item">Segmentación por comportamiento de compra (frecuencia, ticket, categoría)</div>
+        <div class="kpi-item">Programa de lealtad y comunicación VIP para top clientes</div>
+        <div class="kpi-item">SMS para lanzamientos exclusivos y alertas de stock</div>
+        <div class="kpi-item">Encuestas NPS y recolección de reviews post-compra</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 2: 2 cards centered -->
+  <div class="channels-grid row-2">
+
+    <!-- 4. MARKETPLACE -->
+    <div class="channel-card">
+      <div class="card-number">04</div>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M19 6H17c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3z"/></svg>
+      </div>
+      <div class="card-tag">Canal 04</div>
+      <h3>Marketplace</h3>
+      <div class="funnel-badge"><span class="dot"></span>Alcance / Volumen / Nuevos Usuarios</div>
+      <div class="role-label">Rol Principal</div>
+      <p class="role-desc">Canal de volumen y descubrimiento. Captura compradores que no conocen la marca y los expone al producto en entornos de alta intención de compra.</p>
+      <div class="kpis">
+        <div class="kpi-item"><strong style="color:#c9a84c">Amazon / Mercado Libre:</strong> Visibilidad masiva, reviews y posicionamiento orgánico</div>
+        <div class="kpi-item">Estrategia de precio diferenciada vs. canal directo (proteger margen del e-com propio)</div>
+        <div class="kpi-item">Optimización de listings con keywords, imágenes A+ y A/B testing</div>
+        <div class="kpi-item">Captación de nuevos clientes para migrar a canal propio (inserts, QR en packaging)</div>
+      </div>
+    </div>
+
+    <!-- 5. OTROS -->
+    <div class="channel-card">
+      <div class="card-number">05</div>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div class="card-tag">Canal 05</div>
+      <h3>Otros Canales</h3>
+      <div class="funnel-badge"><span class="dot"></span>Amplificación / Credibilidad / PR Digital</div>
+      <div class="role-label">Rol Principal</div>
+      <p class="role-desc">Canales de amplificación que potencian el alcance y la credibilidad de la marca a través de terceros y formatos complementarios.</p>
+      <div class="kpis">
+        <div class="kpi-item"><strong style="color:#c9a84c">Influencer Marketing:</strong> Micro y macro creators para autenticidad y alcance segmentado</div>
+        <div class="kpi-item"><strong style="color:#c9a84c">Afiliados:</strong> Red de publishers y bloggers de moda con comisión por venta</div>
+        <div class="kpi-item"><strong style="color:#c9a84c">Google Ads / Shopping:</strong> Captura de demanda de búsqueda activa con alta intención</div>
+        <div class="kpi-item"><strong style="color:#c9a84c">PR Digital:</strong> Notas en medios de moda, lifestyle y e-commerce para backlinks y branding</div>
+        <div class="kpi-item"><strong style="color:#c9a84c">WhatsApp Business:</strong> Atención personalizada, seguimiento de pedidos y ventas asistidas</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FLOW DIAGRAM -->
+  <div class="flow-section">
+    <h4>Flujo del Ecosistema — Customer Journey Integrado</h4>
+    <div class="flow-row">
+      <div class="flow-node">
+        <div class="fn-icon">📱</div>
+        <div class="fn-label">Awareness</div>
+        <div class="fn-name">Redes Sociales<br/>Influencers</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-icon">🔍</div>
+        <div class="fn-label">Consideración</div>
+        <div class="fn-name">Google / SEO<br/>Marketplace</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-icon">🌐</div>
+        <div class="fn-label">Conversión</div>
+        <div class="fn-name">Sitio Web<br/>E-commerce</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-icon">✉️</div>
+        <div class="fn-label">Retención</div>
+        <div class="fn-name">CRM / Email<br/>SMS / WhatsApp</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-icon">⭐</div>
+        <div class="fn-label">Advocacy</div>
+        <div class="fn-name">Reviews / UGC<br/>Programa VIP</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>Top Underwear Brand — Documento Confidencial</p>
+  <p class="gold-tag">Ecosistema Digital · Sección III</p>
+</footer>
+
+</body>
+</html>
