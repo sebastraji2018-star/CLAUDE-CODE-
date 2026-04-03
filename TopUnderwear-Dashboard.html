@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOP Underwear - Ecosistema Digital Interactivo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Sora', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ANIMACIONES */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(230, 57, 70, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(230, 57, 70, 0.6); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .animate-slideUp {
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .animate-slideInDown {
+            animation: slideInDown 0.6s ease-out;
+        }
+
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e63946;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d62828;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            animation: slideInDown 0.6s ease-out;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #e63946;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #999;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #fff;
+            background: #e63946;
+        }
+
+        .nav-cta {
+            background: #e63946;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            background: #d62828;
+            transform: scale(1.05);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a3a5c 50%, #0a0a0a 100%);
+            padding-top: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(230, 57, 70, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: pulse 3s infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 25%;
+            right: 25%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(26, 58, 92, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: pulse 4s infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: #e63946;
+        }
+
+        .divider {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #e63946, #1a3a5c);
+            margin: 1.5rem auto;
+            border-radius: 2px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #ccc;
+            margin: 1rem 0;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: #e63946;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d62828;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            font-size: 2rem;
+        }
+
+        /* SECTION */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .section-title h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #999;
+        }
+
+        /* ABOUT */
+        #about {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a2a4a 100%);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, #e63946, #1a3a5c);
+        }
+
+        .timeline-items {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 60px 1fr;
+            gap: 2rem;
+            align-items: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .timeline-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        .timeline-item:nth-child(even) > :not(.timeline-dot) {
+            direction: ltr;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #e63946;
+        }
+
+        .timeline-year {
+            color: #e63946;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-event {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            background: #e63946;
+            border: 4px solid #0a0a0a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+        }
+
+        .timeline-dot::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .stat-card:hover {
+            background: rgba(230, 57, 70, 0.15);
+            border-color: #e63946;
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #e63946;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* CATALOG */
+        #catalog {
+            background: linear-gradient(180deg, #1a2a4a 0%, #0a0a0a 100%);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: #999;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            background: #e63946;
+            color: white;
+            border-color: #e63946;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .product-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #e63946;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(230, 57, 70, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.1), rgba(26, 58, 92, 0.1));
+            border-radius: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-category {
+            color: #999;
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .product-material {
+            display: inline-block;
+            background: rgba(26, 58, 92, 0.5);
+            color: #5ba3d0;
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            color: #e63946;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* MATERIALS */
+        #materials {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a2a4a 100%);
+        }
+
+        .material-slider {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .material-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .material-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .material-name {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .material-desc {
+            color: #ccc;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .material-benefits {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .material-composition {
+            background: rgba(230, 57, 70, 0.2);
+            border: 1px solid rgba(230, 57, 70, 0.5);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            color: #ff8a9b;
+            font-weight: 600;
+        }
+
+        /* LICENSES */
+        #licenses {
+            background: linear-gradient(180deg, #1a2a4a 0%, #0a0a0a 100%);
+        }
+
+        .licenses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .license-card {
+            padding: 2rem;
+            border-radius: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: slideUp 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .license-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0);
+            transition: background 0.3s ease;
+        }
+
+        .license-card:hover::before {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .license-card:hover {
+            transform: scale(1.05);
+        }
+
+        .license-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .license-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .license-chars {
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .license-desc {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            opacity: 0.85;
+        }
+
+        .license-percentage {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .marvel { background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%); }
+        .dc { background: linear-gradient(135deg, #0052cc 0%, #002366 100%); }
+        .naruto { background: linear-gradient(135deg, #ff6b1a 0%, #cc5200 100%); }
+        .futbol { background: linear-gradient(135deg, #1e8449 0%, #0d3f2c 100%); }
+        .condorito { background: linear-gradient(135deg, #f39c12 0%, #d68910 100%); }
+
+        /* DISTRIBUTION */
+        #distribution {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a2a4a 100%);
+        }
+
+        .distribution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(26, 58, 92, 0.3), rgba(230, 57, 70, 0.1));
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #e63946;
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .map-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #e63946;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .distribution-info {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .info-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #e63946;
+        }
+
+        .info-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #e63946;
+        }
+
+        .info-content {
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+
+        /* COMMUNITY */
+        #community {
+            background: linear-gradient(180deg, #1a2a4a 0%, #0a0a0a 100%);
+        }
+
+        .social-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .social-card:hover {
+            background: rgba(230, 57, 70, 0.15);
+            border-color: #e63946;
+            transform: translateY(-3px);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .social-platform {
+            color: #999;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .social-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e63946;
+        }
+
+        /* INSTAGRAM FEED */
+        .instagram-feed {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .ig-post {
+            background: linear-gradient(135deg, rgba(245, 20, 145, 0.1), rgba(138, 43, 226, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .ig-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(245, 20, 145, 0.2), rgba(138, 43, 226, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .ig-content {
+            padding: 1.5rem;
+        }
+
+        .ig-header {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .ig-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #e63946, #d62828);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .ig-user {
+            flex: 1;
+        }
+
+        .ig-username {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .ig-time {
+            color: #999;
+            font-size: 0.75rem;
+        }
+
+        .ig-caption {
+            color: #ccc;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .ig-stats {
+            display: flex;
+            justify-content: space-between;
+            color: #999;
+            font-size: 0.85rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* CLUB */
+        .club-section {
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.15), rgba(26, 58, 92, 0.15));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            text-align: center;
+        }
+
+        .club-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .club-desc {
+            color: #ccc;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .club-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .club-benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .benefit-item {
+            text-align: center;
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-name {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .benefit-desc {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #0a0a0a;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 2rem 1rem;
+            color: #ccc;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li:hover {
+            color: #e63946;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .footer-info {
+            text-align: left;
+        }
+
+        .footer-info strong {
+            color: #e63946;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 0.5rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .social-btn:hover {
+            background: #e63946;
+            transform: translateY(-3px);
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a2a4a 0%, #0a0a0a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: white;
+        }
+
+        .modal-body {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .modal-section {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .modal-label {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .modal-value {
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .modal-price {
+            color: #e63946;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-benefits {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .modal-benefits h4 {
+            margin-bottom: 0.8rem;
+        }
+
+        .modal-benefits ul {
+            list-style: none;
+        }
+
+        .modal-benefits li {
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+
+        .modal-benefits li::before {
+            content: '✓ ';
+            color: #e63946;
+            font-weight: 700;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                grid-template-columns: 40px 1fr;
+                direction: ltr;
+            }
+
+            .timeline-item:nth-child(even) {
+                direction: ltr;
+            }
+
+            .timeline-item:nth-child(even) > :not(.timeline-dot) {
+                direction: ltr;
+            }
+
+            .distribution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .material-benefits {
+                grid-template-columns: 1fr;
+            }
+
+            .club-buttons {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo"><span>TOP</span> Underwear</div>
+            <ul class="nav-links">
+                <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+                <li><a href="#about" class="nav-link">Marca</a></li>
+                <li><a href="#catalog" class="nav-link">Catálogo</a></li>
+                <li><a href="#materials" class="nav-link">Tecnología</a></li>
+                <li><a href="#licenses" class="nav-link">Licencias</a></li>
+                <li><a href="#distribution" class="nav-link">Distribución</a></li>
+                <li><a href="#community" class="nav-link">Comunidad</a></li>
+            </ul>
+            <button class="nav-cta">🛒 Tienda</button>
+            <button class="menu-toggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>TOP <span>UNDERWEAR</span></h1>
+            <div class="divider"></div>
+            <p>Siéntete cómodo, Siéntete TOP</p>
+            <p style="font-size: 1.1rem; color: #999;">La ropa interior de los chilenos</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary">Explorar Catálogo</button>
+                <button class="btn btn-secondary">Tienda Online</button>
+            </div>
+        </div>
+        <div class="scroll-indicator">↓</div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="section-title">
+            <h2>Nuestra Historia</h2>
+            <p>Más de una década llevando comodidad a los hogares chilenos</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-items">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2010s</div>
+                        <div class="timeline-event">Fundación de TOP Underwear</div>
+                        <div class="timeline-desc">Nace la marca comprometida con la comodidad de los chilenos</div>
+                    </div>
+                    <div class="timeline-dot"></div>
+                    <div></div>
+                </div>
+                <div class="timeline-item">
+                    <div></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2017</div>
+                        <div class="timeline-event">Primer Licenciamiento Marvel</div>
+                        <div class="timeline-desc">Colaboración con Disney para colecciones Iron Man, Hulk, Spider-Man</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2019</div>
+                        <div class="timeline-event">Expansión a 70+ tiendas propias</div>
+                        <div class="timeline-desc">Presencia física consolidada en todo Chile</div>
+                    </div>
+                    <div class="timeline-dot"></div>
+                    <div></div>
+                </div>
+                <div class="timeline-item">
+                    <div></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2021</div>
+                        <div class="timeline-event">Ben Brereton como Embajador</div>
+                        <div class="timeline-desc">El futbolista chileno representa la marca globalmente</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2023</div>
+                        <div class="timeline-event">Expansión Internacional</div>
+                        <div class="timeline-desc">Presencia en Amazon USA y exploración de mercados en Florida y Europa</div>
+                    </div>
+                    <div class="timeline-dot"></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">70+</div>
+                <div class="stat-label">Tiendas Propias</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">104K+</div>
+                <div class="stat-label">Seguidores en Instagram</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3800+</div>
+                <div class="stat-label">Posts Publicados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Años de Excelencia</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATALOG -->
+    <section id="catalog">
+        <div class="section-title">
+            <h2>Catálogo de Productos</h2>
+            <p>Descubre nuestra colección completa de prendas cómodas y funcionales</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="filterProducts('all')">👕 Todos</button>
+            <button class="tab-btn" onclick="filterProducts('hombre')">👨 Hombre</button>
+            <button class="tab-btn" onclick="filterProducts('mujer')">👩 Mujer</button>
+            <button class="tab-btn" onclick="filterProducts('ninos')">👶 Niños</button>
+            <button class="tab-btn" onclick="filterProducts('licenses')">⭐ Licencias</button>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- Productos generados por JavaScript -->
+        </div>
+    </section>
+
+    <!-- MATERIALS -->
+    <section id="materials">
+        <div class="section-title">
+            <h2>Tecnología Textil</h2>
+            <p>Materiales premium innovadores para máxima comodidad</p>
+        </div>
+
+        <div class="material-slider">
+            <div class="material-card" id="materialDisplay">
+                <!-- Material dinámico -->
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1rem; margin-top: 2rem;">
+            <button class="tab-btn" onclick="setMaterial(0)">🌾 Algodón</button>
+            <button class="tab-btn" onclick="setMaterial(1)">✨ Microfibra</button>
+            <button class="tab-btn" onclick="setMaterial(2)">🎋 Bambú</button>
+            <button class="tab-btn" onclick="setMaterial(3)">⚡ Cobre</button>
+            <button class="tab-btn" onclick="setMaterial(4)">💎 Modal</button>
+            <button class="tab-btn" onclick="setMaterial(5)">🌊 Viscosa</button>
+        </div>
+    </section>
+
+    <!-- LICENSES -->
+    <section id="licenses">
+        <div class="section-title">
+            <h2>Licencias & Colecciones</h2>
+            <p>Colecciones coleccionables con personajes iconicos (~30% de nuestras ventas)</p>
+        </div>
+
+        <div class="licenses-grid">
+            <div class="license-card marvel">
+                <div class="license-content">
+                    <div class="license-name">🦾 Marvel</div>
+                    <div class="license-chars">Iron Man • Hulk • Spider-Man • Capitán América</div>
+                    <div class="license-desc">Colecciones coleccionables con diseños únicos de superhéroes</div>
+                    <div class="license-percentage">~30% de ventas</div>
+                </div>
+            </div>
+            <div class="license-card dc">
+                <div class="license-content">
+                    <div class="license-name">🦇 DC Comics</div>
+                    <div class="license-chars">Batman • Superman • Wonder Woman</div>
+                    <div class="license-desc">Colecciones premium con ícono de DC</div>
+                    <div class="license-percentage">Popular</div>
+                </div>
+            </div>
+            <div class="license-card naruto">
+                <div class="license-content">
+                    <div class="license-name">🔥 Naruto</div>
+                    <div class="license-chars">Naruto • Sasuke • Kakashi</div>
+                    <div class="license-desc">Anime favorito en ediciones limitadas</div>
+                    <div class="license-percentage">Bestseller</div>
+                </div>
+            </div>
+            <div class="license-card futbol">
+                <div class="license-content">
+                    <div class="license-name">⚽ Fútbol Chileno</div>
+                    <div class="license-chars">Colo-Colo • U. Chile • Más clubs</div>
+                    <div class="license-desc">Sponsor de camisetas y colecciones de equipos nacionales</div>
+                    <div class="license-percentage">Local</div>
+                </div>
+            </div>
+            <div class="license-card condorito">
+                <div class="license-content">
+                    <div class="license-name">🐦 Condorito</div>
+                    <div class="license-chars">Condorito • Petunia • Personajes clásicos</div>
+                    <div class="license-desc">El ícono latinoamericano en diseños temáticos</div>
+                    <div class="license-percentage">Icónico</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DISTRIBUTION -->
+    <section id="distribution">
+        <div class="section-title">
+            <h2>Puntos de Distribución</h2>
+            <p>Accede a TOP Underwear donde prefieras en todo Chile</p>
+        </div>
+
+        <div class="distribution-grid">
+            <div class="map-placeholder">
+                <div class="map-text">70+<br><small style="font-size: 0.5em;">Tiendas Propias</small></div>
+                <div class="map-dot" style="top: 20%; left: 30%;"></div>
+                <div class="map-dot" style="top: 35%; left: 45%;"></div>
+                <div class="map-dot" style="top: 50%; left: 25%;"></div>
+                <div class="map-dot" style="top: 65%; left: 55%;"></div>
+                <div class="map-dot" style="top: 40%; left: 70%;"></div>
+            </div>
+
+            <div class="distribution-info">
+                <div class="info-card">
+                    <div class="info-title">🏪 Tiendas Propias TOP</div>
+                    <div class="info-content">70+ puntos de venta estratégicamente ubicados en todo Chile. Presencia consolidada en las principales ciudades.</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-title">🛍️ Retailers Asociados</div>
+                    <div class="info-content">✓ Ripley<br>✓ Paris<br>✓ Lider</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-title">🌐 E-commerce</div>
+                    <div class="info-content"><strong>topwear.com</strong><br>✓ Envío gratis sobre $50.000 CLP</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-title">📞 Contacto</div>
+                    <div class="info-content">📍 Los Maitenes Oriente 1237, Pudahuel<br>☎️ (02) 6214600<br>📧 contacto@topwear.com</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMMUNITY -->
+    <section id="community">
+        <div class="section-title">
+            <h2>Comunidad & Redes</h2>
+            <p>Únete a más de 104K+ seguidores que aman TOP</p>
+        </div>
+
+        <div class="social-stats">
+            <div class="social-card">
+                <div class="social-icon">📸</div>
+                <div class="social-platform">Instagram</div>
+                <div class="social-number">104K+</div>
+            </div>
+            <div class="social-card">
+                <div class="social-icon">👍</div>
+                <div class="social-platform">Facebook</div>
+                <div class="social-number">60K+</div>
+            </div>
+            <div class="social-card">
+                <div class="social-icon">🛒</div>
+                <div class="social-platform">Tienda Online</div>
+                <div class="social-number">topwear.com</div>
+            </div>
+            <div class="social-card">
+                <div class="social-icon">✉️</div>
+                <div class="social-platform">Email</div>
+                <div class="social-number">contacto@topwear.com</div>
+            </div>
+        </div>
+
+        <h3 style="text-align: center; margin-bottom: 2rem; font-size: 1.5rem;">Últimas Publicaciones</h3>
+
+        <div class="instagram-feed">
+            <div class="ig-post">
+                <div class="ig-image">📷</div>
+                <div class="ig-content">
+                    <div class="ig-header">
+                        <div class="ig-avatar">T</div>
+                        <div class="ig-user">
+                            <div class="ig-username">@topunderwear</div>
+                            <div class="ig-time">Hace 2 horas</div>
+                        </div>
+                    </div>
+                    <div class="ig-caption">Nueva colección Marvel disponible 🦾 #TopUnderwear #IronMan</div>
+                    <div class="ig-stats">
+                        <span>❤️ 2.4K likes</span>
+                        <span>💬 128 comentarios</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ig-post">
+                <div class="ig-image">📷</div>
+                <div class="ig-content">
+                    <div class="ig-header">
+                        <div class="ig-avatar">T</div>
+                        <div class="ig-user">
+                            <div class="ig-username">@topunderwear</div>
+                            <div class="ig-time">Hace 5 horas</div>
+                        </div>
+                    </div>
+                    <div class="ig-caption">Técnicas de máxima comodidad para el gym 💪 #LineaActive</div>
+                    <div class="ig-stats">
+                        <span>❤️ 3.1K likes</span>
+                        <span>💬 256 comentarios</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ig-post">
+                <div class="ig-image">📷</div>
+                <div class="ig-content">
+                    <div class="ig-header">
+                        <div class="ig-avatar">T</div>
+                        <div class="ig-user">
+                            <div class="ig-username">@topunderwear</div>
+                            <div class="ig-time">Hace 1 día</div>
+                        </div>
+                    </div>
+                    <div class="ig-caption">Diseños exclusivos con licencia DC Comics 🦇 #DCComics</div>
+                    <div class="ig-stats">
+                        <span>❤️ 1.8K likes</span>
+                        <span>💬 94 comentarios</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ig-post">
+                <div class="ig-image">📷</div>
+                <div class="ig-content">
+                    <div class="ig-header">
+                        <div class="ig-avatar">T</div>
+                        <div class="ig-user">
+                            <div class="ig-username">@topunderwear</div>
+                            <div class="ig-time">Hace 2 días</div>
+                        </div>
+                    </div>
+                    <div class="ig-caption">Sponsor oficial de fútbol chileno ⚽ #ChileFutbol</div>
+                    <div class="ig-stats">
+                        <span>❤️ 4.2K likes</span>
+                        <span>💬 342 comentarios</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="club-section">
+            <h2 class="club-title">¡Únete al Club TOP!</h2>
+            <p class="club-desc">Acceso exclusivo a colecciones limitadas, descuentos especiales y contenido detrás de cámaras.</p>
+            <div class="club-buttons">
+                <button class="btn btn-primary">📸 Seguir Instagram</button>
+                <button class="btn btn-secondary">👍 Seguir Facebook</button>
+            </div>
+
+            <div class="club-benefits">
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎁</div>
+                    <div class="benefit-name">Exclusivas</div>
+                    <div class="benefit-desc">Acceso a colecciones limitadas</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">💰</div>
+                    <div class="benefit-name">Descuentos</div>
+                    <div class="benefit-desc">Ofertas especiales para miembros</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔔</div>
+                    <div class="benefit-name">Novedades</div>
+                    <div class="benefit-desc">Primero en enterarte de lanzamientos</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>TOP Underwear</h3>
+                    <p>La ropa interior de los chilenos. Siéntete cómodo, siéntete TOP.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Productos</h3>
+                    <ul>
+                        <li>Hombre</li>
+                        <li>Mujer</li>
+                        <li>Niños</li>
+                        <li>Colecciones</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Empresa</h3>
+                    <ul>
+                        <li>Sobre Nosotros</li>
+                        <li>Tiendas</li>
+                        <li>Contacto</li>
+                        <li>Términos</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <ul>
+                        <li>📞 (02) 6214600</li>
+                        <li>📧 contacto@topwear.com</li>
+                        <li>📍 Santiago, Chile</li>
+                        <li>🌐 topwear.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p><strong>RUT:</strong> 83.210.700-K</p>
+                </div>
+                <div class="footer-info">
+                    <p><strong>Sitio Web:</strong> topwear.com</p>
+                </div>
+                <div>
+                    <p style="margin-bottom: 1rem;">Síguenos</p>
+                    <div class="footer-socials">
+                        <button class="social-btn">📸</button>
+                        <button class="social-btn">👍</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: 1rem; color: #666;">
+                <p>© 2025 TOP Underwear. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Producto</h2>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; font-size: 3rem; margin-bottom: 1rem;" id="modalIcon">👕</div>
+                <div class="modal-section">
+                    <div class="modal-label">Categoría</div>
+                    <div class="modal-value" id="modalCategory">-</div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-label">Material</div>
+                    <div class="modal-value" id="modalMaterial">-</div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-label">Rango de Precio</div>
+                    <div class="modal-price" id="modalPrice">-</div>
+                </div>
+                <div class="modal-benefits">
+                    <h4>Beneficios</h4>
+                    <ul>
+                        <li>Diseño ergonómico</li>
+                        <li>Costuras planas anti-irritación</li>
+                        <li>Tecnología de control de temperatura</li>
+                        <li>Máxima comodidad garantizada</li>
+                    </ul>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">🛒 Agregar al Carrito</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATOS
+        const products = {
+            all: [
+                { id: 1, name: 'Bóxer Clásico', category: 'Bóxer', material: 'Algodón Premium', price: '$8.900 - $12.900', icon: '👕', type: 'hombre' },
+                { id: 2, name: 'Bóxer Mujer', category: 'Bóxer', material: 'Algodón Premium', price: '$9.900 - $13.900', icon: '👗', type: 'mujer' },
+                { id: 3, name: 'Bóxer Niño', category: 'Bóxer', material: 'Algodón Premium', price: '$5.900 - $8.900', icon: '👕', type: 'ninos' },
+                { id: 4, name: 'Bóxer Marvel - Iron Man', category: 'Marvel', material: 'Microfibra Colección', price: '$14.900 - $18.900', icon: '🦾', type: 'licenses' },
+                { id: 5, name: 'Slip Deportivo', category: 'Slip', material: 'Fibra de Cobre', price: '$7.900 - $11.900', icon: '🩳', type: 'hombre' },
+                { id: 6, name: 'Culotte Premium', category: 'Culotte', material: 'Microfibra', price: '$8.900 - $12.900', icon: '✨', type: 'mujer' },
+                { id: 7, name: 'Calcetín Térmico', category: 'Calcetines', material: 'Bambú Mix', price: '$4.900 - $6.900', icon: '🧦', type: 'hombre' },
+                { id: 8, name: 'Pijama Verano', category: 'Pijamas', material: 'Algodón', price: '$19.900 - $24.900', icon: '🌙', type: 'hombre' },
+                { id: 9, name: 'Calza Deportiva Active', category: 'Línea Active', material: 'Poliéster Técnico', price: '$24.900 - $29.900', icon: '⚡', type: 'mujer' },
+                { id: 10, name: 'Pijama Condorito', category: 'Condorito', material: 'Algodón', price: '$19.900 - $24.900', icon: '🐦', type: 'licenses' },
+            ],
+            hombre: [
+                { id: 1, name: 'Bóxer Clásico', category: 'Bóxer', material: 'Algodón Premium', price: '$8.900 - $12.900', icon: '👕' },
+                { id: 5, name: 'Slip Deportivo', category: 'Slip', material: 'Fibra de Cobre', price: '$7.900 - $11.900', icon: '🩳' },
+                { id: 7, name: 'Calcetín Térmico', category: 'Calcetines', material: 'Bambú Mix', price: '$4.900 - $6.900', icon: '🧦' },
+                { id: 8, name: 'Pijama Verano', category: 'Pijamas', material: 'Algodón', price: '$19.900 - $24.900', icon: '🌙' },
+            ],
+            mujer: [
+                { id: 2, name: 'Bóxer Mujer', category: 'Bóxer', material: 'Algodón Premium', price: '$9.900 - $13.900', icon: '👗' },
+                { id: 6, name: 'Culotte Premium', category: 'Culotte', material: 'Microfibra', price: '$8.900 - $12.900', icon: '✨' },
+                { id: 9, name: 'Calza Deportiva Active', category: 'Línea Active', material: 'Poliéster Técnico', price: '$24.900 - $29.900', icon: '⚡' },
+            ],
+            ninos: [
+                { id: 3, name: 'Bóxer Niño', category: 'Bóxer', material: 'Algodón Premium', price: '$5.900 - $8.900', icon: '👕' },
+            ],
+            licenses: [
+                { id: 4, name: 'Bóxer Marvel - Iron Man', category: 'Marvel', material: 'Microfibra Colección', price: '$14.900 - $18.900', icon: '🦾' },
+                { id: 10, name: 'Pijama Condorito', category: 'Condorito', material: 'Algodón', price: '$19.900 - $24.900', icon: '🐦' },
+            ]
+        };
+
+        const materials = [
+            { name: 'Algodón Premium', percentage: '93%', benefits: ['Transpirable', 'Hipoalergénico', 'Suave al tacto'], icon: '🌾', desc: 'Algodón de alta calidad con 7% elastano para máxima comodidad' },
+            { name: 'Microfibra', percentage: '100%', benefits: ['Secado rápido', 'Resistente', 'Suave'], icon: '✨', desc: 'Tecnología de última generación para máximo confort' },
+            { name: 'Bambú', percentage: 'Híbrido', benefits: ['Antibacteriano natural', 'Eco-friendly', 'Termorregulador'], icon: '🎋', desc: 'Fibra sostenible con propiedades naturales excepcionales' },
+            { name: 'Fibra de Cobre', percentage: 'Coating', benefits: ['Propiedades antimicrobianas', 'Durabilidad', 'Frescura'], icon: '⚡', desc: 'Tecnología cobre para máxima higiene y longevidad' },
+            { name: 'Modal', percentage: 'Mixto', benefits: ['Brillo natural', 'Elasticidad', 'Comodidad extrema'], icon: '💎', desc: 'Fibra premium que combina lujo con funcionalidad' },
+            { name: 'Viscosa', percentage: 'Mixto', benefits: ['Suavidad', 'Transpirabilidad', 'Elegancia'], icon: '🌊', desc: 'Textura fina ideal para prendas de alto rendimiento' },
+        ];
+
+        let currentMaterial = 0;
+        let currentFilter = 'all';
+
+        // FUNCIONES
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('productsGrid');
+            const items = products[filter] || products.all;
+
+            grid.innerHTML = items.map(p => `
+                <div class="product-card" onclick="openModal('${p.name}', '${p.category}', '${p.material}', '${p.price}', '${p.icon}')">
+                    <div class="product-image">${p.icon}</div>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-category">${p.category}</div>
+                    <div class="product-material">${p.material}</div>
+                    <div class="product-price">${p.price}</div>
+                </div>
+            `).join('');
+        }
+
+        function filterProducts(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderProducts(filter);
+        }
+
+        function setMaterial(index) {
+            currentMaterial = index;
+            const m = materials[index];
+            document.getElementById('materialDisplay').innerHTML = `
+                <div class="material-icon">${m.icon}</div>
+                <div class="material-name">${m.name}</div>
+                <div class="material-desc">${m.desc}</div>
+                <div class="material-benefits">
+                    ${m.benefits.map(b => `<div class="benefit">${b}</div>`).join('')}
+                </div>
+                <div class="material-composition">Composición: ${m.percentage}</div>
+            `;
+        }
+
+        function openModal(name, category, material, price, icon) {
+            document.getElementById('modalTitle').textContent = name;
+            document.getElementById('modalIcon').textContent = icon;
+            document.getElementById('modalCategory').textContent = category;
+            document.getElementById('modalMaterial').textContent = material;
+            document.getElementById('modalPrice').textContent = price;
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('active');
+        }
+
+        function updateNavLinks() {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            const current = window.location.hash || '#inicio';
+            document.querySelector(`a[href="${current}"]`)?.classList.add('active');
+        }
+
+        // INICIALIZAR
+        window.addEventListener('load', () => {
+            renderProducts();
+            setMaterial(0);
+            updateNavLinks();
+        });
+
+        window.addEventListener('hashchange', updateNavLinks);
+
+        document.getElementById('productModal').addEventListener('click', (e) => {
+            if (e.target.id === 'productModal') closeModal();
+        });
+    </script>
+</body>
+</html>
