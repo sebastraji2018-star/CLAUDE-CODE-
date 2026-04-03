@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOP Underwear - Ecosistema Digital Interactivo</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Playfair+Display:wght@700&display=swap');
+
+        * {
+            font-family: 'Sora', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce-custom {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .animate-slideUp {
+            animation: slideUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-bounce-custom {
+            animation: bounce-custom 2s infinite;
+        }
+
+        .delay-300 { animation-delay: 300ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .delay-700 { animation-delay: 700ms; }
+        .delay-1000 { animation-delay: 1000ms; }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e63946;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d62828;
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <div id="root"></div>
+
+    <script type="babel" src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const lucide = window.lucide;
+
+        // Iconos de lucide
+        const Menu = lucide.Menu;
+        const X = lucide.X;
+        const ChevronDown = lucide.ChevronDown;
+        const ShoppingCart = lucide.ShoppingCart;
+        const Instagram = lucide.Instagram;
+        const Facebook = lucide.Facebook;
+        const Phone = lucide.Phone;
+        const Mail = lucide.Mail;
+        const MapPin = lucide.MapPin;
+
+        // DATOS DE LA MARCA
+        const BRAND_DATA = {
+            name: 'TOP Underwear',
+            slogan: 'Siéntete cómodo, Siéntete TOP',
+            tagline: 'La ropa interior de los chilenos',
+            headquarters: 'Los Maitenes Oriente 1237, Pudahuel, Santiago, Chile',
+            rut: '83.210.700-K',
+            phone: '(02) 6214600',
+            email: 'contacto@topwear.com',
+            website: 'topwear.com',
+            founders: {
+                gm: 'Cristián Awad Bahna',
+                marketing: 'Andrés Díaz Oñate',
+                sales: 'Felipe Awad',
+            },
+            social: {
+                instagram: { handle: '@topunderwear', followers: '104K+', posts: '3.800+' },
+                facebook: { name: 'Top Underwear', likes: '60K+' },
+            },
+            stores: {
+                own: 70,
+                retailers: ['Ripley', 'Paris', 'Lider'],
+            },
+        };
+
+        const TIMELINE = [
+            { year: '2010s', event: 'Fundación de TOP Underwear', desc: 'Nace la marca comprometida con la comodidad de los chilenos' },
+            { year: '2017', event: 'Primer Licenciamiento Marvel', desc: 'Colaboración con Disney para colecciones Iron Man, Hulk, Spider-Man' },
+            { year: '2019', event: 'Expansión a 70+ tiendas propias', desc: 'Presencia física consolidada en todo Chile' },
+            { year: '2021', event: 'Ben Brereton como Embajador', desc: 'El futbolista chileno representa la marca globalmente' },
+            { year: '2023', event: 'Expansión Internacional', desc: 'Presencia en Amazon USA y exploración de mercados en Florida y Europa' },
+        ];
+
+        const MATERIALS = [
+            { name: 'Algodón Premium', percentage: '93%', benefits: ['Transpirable', 'Hipoalergénico', 'Suave al tacto'], icon: '🌾', desc: 'Algodón de alta calidad con 7% elastano para máxima comodidad' },
+            { name: 'Microfibra', percentage: '100%', benefits: ['Secado rápido', 'Resistente', 'Suave'], icon: '✨', desc: 'Tecnología de última generación para máximo confort' },
+            { name: 'Bambú', percentage: 'Híbrido', benefits: ['Antibacteriano natural', 'Eco-friendly', 'Termorregulador'], icon: '🎋', desc: 'Fibra sostenible con propiedades naturales excepcionales' },
+            { name: 'Fibra de Cobre', percentage: 'Coating', benefits: ['Propiedades antimicrobianas', 'Durabilidad', 'Frescura'], icon: '⚡', desc: 'Tecnología cobre para máxima higiene y longevidad' },
+            { name: 'Modal', percentage: 'Mixto', benefits: ['Brillo natural', 'Elasticidad', 'Comodidad extrema'], icon: '💎', desc: 'Fibra premium que combina lujo con funcionalidad' },
+            { name: 'Viscosa', percentage: 'Mixto', benefits: ['Suavidad', 'Transpirabilidad', 'Elegancia'], icon: '🌊', desc: 'Textura fina ideal para prendas de alto rendimiento' },
+        ];
+
+        const LICENSES = [
+            { name: 'Marvel', characters: ['Iron Man', 'Hulk', 'Spider-Man', 'Capitán América'], percentage: '~30%', desc: 'Colecciones coleccionables con diseños únicos de superhéroes', color: 'from-red-600 to-red-800' },
+            { name: 'DC Comics', characters: ['Batman', 'Superman', 'Wonder Woman'], percentage: 'Popular', desc: 'Colecciones premium con ícono de DC', color: 'from-blue-700 to-blue-900' },
+            { name: 'Naruto', characters: ['Naruto', 'Sasuke', 'Kakashi'], percentage: 'Bestseller', desc: 'Anime favorito en ediciones limitadas', color: 'from-orange-500 to-orange-700' },
+            { name: 'Fútbol Chileno', characters: ['Colo-Colo', 'Universidad de Chile', 'Más clubs'], percentage: 'Local', desc: 'Sponsor de camisetas y colecciones de equipos nacionales', color: 'from-green-600 to-green-800' },
+            { name: 'Condorito', characters: ['Condorito', 'Petunia', 'Personajes clásicos'], percentage: 'Icónico', desc: 'El ícono latinoamericano en diseños temáticos', color: 'from-amber-500 to-amber-700' },
+        ];
+
+        const PRODUCTS = {
+            hombre: [
+                { id: 1, name: 'Bóxer Clásico', category: 'Bóxer', material: 'Algodón Premium', price: '$8.900 - $12.900', badge: '👕' },
+                { id: 2, name: 'Bóxer Largo', category: 'Bóxer', material: 'Microfibra', price: '$9.900 - $13.900', badge: '👖' },
+                { id: 3, name: 'Slip Deportivo', category: 'Slip', material: 'Fibra de Cobre', price: '$7.900 - $11.900', badge: '🩳' },
+                { id: 4, name: 'Calcetín Térmico', category: 'Calcetines', material: 'Bambú Mix', price: '$4.900 - $6.900', badge: '🧦' },
+                { id: 5, name: 'Pijama Verano', category: 'Pijamas', material: 'Algodón', price: '$19.900 - $24.900', badge: '🌙' },
+                { id: 6, name: 'Polera Primera Capa', category: 'Primeras Capas', material: 'Modal', price: '$12.900 - $16.900', badge: '👚' },
+            ],
+            mujer: [
+                { id: 7, name: 'Bóxer Mujer', category: 'Bóxer', material: 'Algodón Premium', price: '$9.900 - $13.900', badge: '👗' },
+                { id: 8, name: 'Culotte Premium', category: 'Culotte', material: 'Microfibra', price: '$8.900 - $12.900', badge: '✨' },
+                { id: 9, name: 'Bikini Comfort', category: 'Bikini', material: 'Algodón Mix', price: '$10.900 - $14.900', badge: '🩱' },
+                { id: 10, name: 'Tanga Invisible', category: 'Tanga', material: 'Microfibra', price: '$9.900 - $13.900', badge: '💫' },
+                { id: 11, name: 'Calza Deportiva Active', category: 'Línea Active', material: 'Poliéster Técnico', price: '$24.900 - $29.900', badge: '⚡' },
+                { id: 12, name: 'Pantaleta Básica', category: 'Pantaleta', material: 'Algodón', price: '$7.900 - $11.900', badge: '🎀' },
+            ],
+            ninos: [
+                { id: 13, name: 'Bóxer Niño', category: 'Bóxer', material: 'Algodón Premium', price: '$5.900 - $8.900', badge: '👕' },
+                { id: 14, name: 'Slip Niño', category: 'Slip', material: 'Algodón', price: '$4.900 - $7.900', badge: '🩳' },
+                { id: 15, name: 'Pijama Invierno Niño', category: 'Pijamas', material: 'Algodón Grueso', price: '$14.900 - $19.900', badge: '❄️' },
+                { id: 16, name: 'Calcetín Niño', category: 'Calcetines', material: 'Algodón Mix', price: '$3.900 - $5.900', badge: '🧦' },
+                { id: 17, name: 'Camiseta Primera Capa', category: 'Primeras Capas', material: 'Algodón', price: '$9.900 - $12.900', badge: '👚' },
+            ],
+            licenses: [
+                { id: 18, name: 'Bóxer Marvel - Iron Man', license: 'Marvel', material: 'Microfibra Colección', price: '$14.900 - $18.900', badge: '🦾' },
+                { id: 19, name: 'Slip DC Comics - Batman', license: 'DC Comics', material: 'Algodón Premium', price: '$13.900 - $17.900', badge: '🦇' },
+                { id: 20, name: 'Bóxer Naruto - Hokage', license: 'Naruto', material: 'Microfibra', price: '$14.900 - $18.900', badge: '🔥' },
+                { id: 21, name: 'Bóxer Colo-Colo', license: 'Fútbol Chileno', material: 'Poliéster', price: '$12.900 - $16.900', badge: '⚽' },
+                { id: 22, name: 'Pijama Condorito', license: 'Condorito', material: 'Algodón', price: '$19.900 - $24.900', badge: '🐦' },
+            ],
+        };
+
+        // HOOKS
+        const useScrollAnimation = () => {
+            const [isVisible, setIsVisible] = useState(false);
+            const ref = useRef(null);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(
+                    ([entry]) => {
+                        if (entry.isIntersecting) {
+                            setIsVisible(true);
+                            observer.unobserve(entry.target);
+                        }
+                    },
+                    { threshold: 0.1 }
+                );
+
+                if (ref.current) {
+                    observer.observe(ref.current);
+                }
+
+                return () => observer.disconnect();
+            }, []);
+
+            return [ref, isVisible];
+        };
+
+        // COMPONENTES
+        const AnimatedCounter = ({ end, duration = 2000 }) => {
+            const [count, setCount] = useState(0);
+            const [ref, isVisible] = useScrollAnimation();
+
+            useEffect(() => {
+                if (!isVisible) return;
+
+                let start = 0;
+                const increment = end / (duration / 16);
+                const timer = setInterval(() => {
+                    start += increment;
+                    if (start >= end) {
+                        setCount(end);
+                        clearInterval(timer);
+                    } else {
+                        setCount(Math.floor(start));
+                    }
+                }, 16);
+
+                return () => clearInterval(timer);
+            }, [isVisible, end, duration]);
+
+            return <span ref={ref}>{count.toLocaleString()}</span>;
+        };
+
+        const SectionTitle = ({ title, subtitle }) => {
+            const [ref, isVisible] = useScrollAnimation();
+
+            return (
+                <div ref={ref} className={`text-center mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">{title}</h2>
+                    {subtitle && <p className="text-gray-400 text-lg">{subtitle}</p>}
+                </div>
+            );
+        };
+
+        const NavBar = ({ activeSection, setActiveSection }) => {
+            const [isOpen, setIsOpen] = useState(false);
+            const sections = ['Inicio', 'Marca', 'Catálogo', 'Tecnología', 'Licencias', 'Distribución', 'Comunidad'];
+
+            const handleClick = (section) => {
+                setActiveSection(section);
+                setIsOpen(false);
+            };
+
+            return (
+                <nav className="fixed top-0 w-full bg-black/95 backdrop-blur-md z-50 border-b border-white/10">
+                    <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                        <div className="text-2xl font-bold text-white">
+                            <span className="text-red-500">TOP</span> Underwear
+                        </div>
+
+                        <div className="hidden md:flex gap-6 items-center">
+                            {sections.map((section) => (
+                                <button
+                                    key={section}
+                                    onClick={() => handleClick(section)}
+                                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${activeSection === section ? 'bg-red-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
+                                >
+                                    {section}
+                                </button>
+                            ))}
+                            <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
+                                <ShoppingCart size={18} />
+                                Tienda
+                            </button>
+                        </div>
+
+                        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white hover:bg-white/10 p-2 rounded-lg transition-all">
+                            {isOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    </div>
+
+                    {isOpen && (
+                        <div className="md:hidden bg-black/98 border-t border-white/10 p-4 space-y-3 animate-fadeIn">
+                            {sections.map((section) => (
+                                <button
+                                    key={section}
+                                    onClick={() => handleClick(section)}
+                                    className={`w-full text-left px-4 py-2 rounded-lg transition-all ${activeSection === section ? 'bg-red-500 text-white' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
+                                >
+                                    {section}
+                                </button>
+                            ))}
+                            <button className="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all">
+                                <ShoppingCart size={18} />
+                                Tienda Online
+                            </button>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        // SECCIONES
+        const HeroSection = () => (
+            <section className="relative h-screen bg-gradient-to-br from-black via-blue-950 to-black overflow-hidden pt-20">
+                <div className="absolute inset-0">
+                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+                </div>
+
+                <div className="relative h-full flex flex-col items-center justify-center px-4 text-center z-10">
+                    <div className="animate-fadeIn">
+                        <div className="mb-8">
+                            <h1 className="text-6xl md:text-7xl font-bold mb-4">
+                                <span className="text-white">TOP </span>
+                                <span className="bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text text-transparent">Underwear</span>
+                            </h1>
+                            <div className="h-1 w-32 bg-gradient-to-r from-red-500 to-blue-500 mx-auto rounded-full mb-8"></div>
+                        </div>
+
+                        <div className="space-y-6 mb-12">
+                            <p className="text-3xl md:text-4xl text-gray-200 font-light tracking-wide animate-slideUp delay-300">
+                                {BRAND_DATA.slogan}
+                            </p>
+                            <p className="text-xl text-gray-400 animate-slideUp delay-500">{BRAND_DATA.tagline}</p>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12 animate-slideUp delay-700">
+                            <button className="px-8 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg">
+                                Explorar Catálogo
+                            </button>
+                            <button className="px-8 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg border border-white/30 transition-all transform hover:scale-105">
+                                Visitar Tienda Online
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-custom">
+                        <ChevronDown className="text-red-500" size={32} />
+                    </div>
+                </div>
+            </section>
+        );
+
+        const AboutSection = () => {
+            const [ref, isVisible] = useScrollAnimation();
+
+            return (
+                <section className="relative py-20 bg-gradient-to-b from-black to-blue-950 px-4">
+                    <div className="max-w-6xl mx-auto">
+                        <SectionTitle title="Nuestra Historia" subtitle="Más de una década llevando comodidad a los hogares chilenos" />
+
+                        <div ref={ref} className={`mb-16 transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                            <div className="relative">
+                                <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-red-500 to-blue-500"></div>
+
+                                <div className="space-y-12">
+                                    {TIMELINE.map((item, idx) => (
+                                        <div key={idx} className={`md:flex ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 items-center animate-fadeIn`} style={{ animationDelay: `${idx * 100}ms` }}>
+                                            <div className={`flex-1 ${idx % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
+                                                <div className="bg-white/5 hover:bg-white/10 p-6 rounded-xl border border-white/10 transition-all">
+                                                    <div className="text-red-500 font-bold text-lg mb-2">{item.year}</div>
+                                                    <h3 className="text-xl font-bold text-white mb-2">{item.event}</h3>
+                                                    <p className="text-gray-400">{item.desc}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="hidden md:flex w-12 h-12 bg-red-500 rounded-full items-center justify-center border-4 border-black relative z-10">
+                                                <div className="w-3 h-3 bg-white rounded-full"></div>
+                                            </div>
+
+                                            <div className="flex-1"></div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-3 gap-8 my-16">
+                            {[
+                                { icon: '💪', title: 'Misión', desc: 'Entregar comodidad y confianza a través de prendas innovadoras y accesibles para toda la familia chilena.' },
+                                { icon: '✨', title: 'Valores', desc: 'Calidad premium, diseño entretenido, inclusión, sustentabilidad y presencia local con alcance global.' },
+                                { icon: '🎯', title: 'Visión', desc: 'Ser la marca de ropa interior más amada de Latinoamérica, reconocida por innovación y personalidad.' },
+                            ].map((item, idx) => (
+                                <div key={idx} className="bg-gradient-to-br from-white/5 to-white/10 p-8 rounded-xl border border-white/10 text-center hover:border-red-500/50 transition-all group">
+                                    <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">{item.icon}</div>
+                                    <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+                                    <p className="text-gray-400">{item.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
+                            {[
+                                { number: '70+', label: 'Tiendas Propias' },
+                                { number: '104K+', label: 'Seguidores en Instagram' },
+                                { number: '3800+', label: 'Posts Publicados' },
+                                { number: '15+', label: 'Años de Excelencia' },
+                            ].map((stat, idx) => (
+                                <div key={idx} className="bg-white/5 hover:bg-red-500/20 p-6 rounded-xl border border-white/10 text-center transition-all">
+                                    <div className="text-3xl md:text-4xl font-bold text-red-500 mb-2">
+                                        <AnimatedCounter end={parseInt(stat.number)} />
+                                    </div>
+                                    <p className="text-gray-400 text-sm">{stat.label}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="mt-16 bg-gradient-to-r from-red-500/10 to-blue-500/10 p-8 rounded-xl border border-red-500/30">
+                            <h3 className="text-2xl font-bold text-white mb-4">Conoce al Equipo</h3>
+                            <div className="grid md:grid-cols-3 gap-6 text-gray-300">
+                                <div>
+                                    <p className="font-semibold text-red-500">Gerente General</p>
+                                    <p>{BRAND_DATA.founders.gm}</p>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-red-500">Marketing & Productos</p>
+                                    <p>{BRAND_DATA.founders.marketing}</p>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-red-500">Gerente de Ventas</p>
+                                    <p>{BRAND_DATA.founders.sales}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const CatalogSection = () => {
+            const [activeTab, setActiveTab] = useState('hombre');
+            const [selectedProduct, setSelectedProduct] = useState(null);
+            const [ref, isVisible] = useScrollAnimation();
+
+            const tabs = ['hombre', 'mujer', 'ninos', 'licenses'];
+            const tabLabels = { hombre: '👨 Hombre', mujer: '👩 Mujer', ninos: '👶 Niños', licenses: '⭐ Licencias' };
+            const currentProducts = PRODUCTS[activeTab] || [];
+
+            return (
+                <section className="relative py-20 bg-gradient-to-b from-blue-950 to-black px-4">
+                    <div className="max-w-7xl mx-auto">
+                        <SectionTitle title="Catálogo de Productos" subtitle="Descubre nuestra colección completa de prendas cómodas y funcionales" />
+
+                        <div ref={ref} className={`flex flex-wrap justify-center gap-3 mb-12 transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                            {tabs.map((tab) => (
+                                <button
+                                    key={tab}
+                                    onClick={() => setActiveTab(tab)}
+                                    className={`px-6 py-3 rounded-lg font-semibold transition-all ${activeTab === tab ? 'bg-red-500 text-white shadow-lg' : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10'}`}
+                                >
+                                    {tabLabels[tab]}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {currentProducts.map((product, idx) => (
+                                <div
+                                    key={product.id}
+                                    className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-red-500/50 p-6 rounded-xl cursor-pointer transition-all transform hover:scale-105 animate-fadeIn"
+                                    style={{ animationDelay: `${idx * 50}ms` }}
+                                    onClick={() => setSelectedProduct(product)}
+                                >
+                                    <div className="relative mb-4 h-48 bg-gradient-to-br from-red-500/10 to-blue-500/10 rounded-lg flex items-center justify-center overflow-hidden">
+                                        <div className="text-6xl opacity-40 group-hover:scale-110 transition-transform">{product.badge}</div>
+                                    </div>
+
+                                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-red-500 transition-colors">{product.name}</h3>
+                                    <p className="text-sm text-gray-400 mb-2">{product.category}</p>
+
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <span className="text-xs bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full">{product.material}</span>
+                                    </div>
+
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-red-500 font-bold">{product.price}</span>
+                                        <button className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all">
+                                            <ShoppingCart size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {selectedProduct && (
+                            <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fadeIn">
+                                <div className="bg-gradient-to-b from-blue-950 to-black border border-white/10 p-8 rounded-xl max-w-2xl w-full animate-slideUp">
+                                    <div className="flex justify-between items-start mb-6">
+                                        <h2 className="text-2xl font-bold text-white">{selectedProduct.name}</h2>
+                                        <button onClick={() => setSelectedProduct(null)} className="text-gray-400 hover:text-white text-2xl">✕</button>
+                                    </div>
+
+                                    <div className="grid md:grid-cols-2 gap-8">
+                                        <div className="h-64 bg-gradient-to-br from-red-500/10 to-blue-500/10 rounded-lg flex items-center justify-center text-6xl">
+                                            {selectedProduct.badge}
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            <div>
+                                                <p className="text-gray-400 text-sm mb-1">Categoría</p>
+                                                <p className="text-white text-lg font-semibold">{selectedProduct.category}</p>
+                                            </div>
+
+                                            <div>
+                                                <p className="text-gray-400 text-sm mb-1">Material</p>
+                                                <p className="text-white text-lg font-semibold">{selectedProduct.material}</p>
+                                            </div>
+
+                                            <div>
+                                                <p className="text-gray-400 text-sm mb-1">Rango de Precio</p>
+                                                <p className="text-red-500 text-2xl font-bold">{selectedProduct.price}</p>
+                                            </div>
+
+                                            <div className="pt-4 border-t border-white/10">
+                                                <h4 className="text-white font-semibold mb-3">Beneficios</h4>
+                                                <ul className="space-y-2 text-gray-300">
+                                                    <li>✓ Diseño ergonómico</li>
+                                                    <li>✓ Costuras planas anti-irritación</li>
+                                                    <li>✓ Tecnología de control de temperatura</li>
+                                                    <li>✓ Máxima comodidad garantizada</li>
+                                                </ul>
+                                            </div>
+
+                                            <button className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-lg mt-6 flex items-center justify-center gap-2 transition-all">
+                                                <ShoppingCart size={20} />
+                                                Agregar al Carrito
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
+            );
+        };
+
+        const TechnologySection = () => {
+            const [ref, isVisible] = useScrollAnimation();
+            const [activeMaterial, setActiveMaterial] = useState(0);
+
+            return (
+                <section className="relative py-20 bg-gradient-to-b from-black to-blue-950 px-4">
+                    <div className="max-w-6xl mx-auto">
+                        <SectionTitle title="Tecnología Textil" subtitle="Materiales premium innovadores para máxima comodidad" />
+
+                        <div ref={ref} className={`mb-12 transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                            <div className="relative">
+                                <div className="bg-gradient-to-r from-white/10 to-white/5 border border-white/20 p-12 rounded-2xl mb-8">
+                                    <div className="text-8xl mb-6">{MATERIALS[activeMaterial].icon}</div>
+                                    <h3 className="text-4xl font-bold text-white mb-4">{MATERIALS[activeMaterial].name}</h3>
+                                    <p className="text-gray-300 text-lg mb-6">{MATERIALS[activeMaterial].desc}</p>
+
+                                    <div className="grid grid-cols-3 gap-4">
+                                        {MATERIALS[activeMaterial].benefits.map((benefit, idx) => (
+                                            <div key={idx} className="bg-white/5 p-4 rounded-lg border border-white/10">
+                                                <p className="text-gray-300 text-sm text-center">{benefit}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="mt-6 bg-red-500/20 border border-red-500/50 p-4 rounded-lg">
+                                        <p className="text-red-300 font-semibold">
+                                            Composición: {MATERIALS[activeMaterial].percentage}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-between items-center gap-4">
+                                    <button
+                                        onClick={() => setActiveMaterial(activeMaterial === 0 ? MATERIALS.length - 1 : activeMaterial - 1)}
+                                        className="bg-white/10 hover:bg-red-500 text-white px-6 py-3 rounded-lg transition-all"
+                                    >
+                                        ← Anterior
+                                    </button>
+
+                                    <div className="flex gap-2 flex-wrap justify-center">
+                                        {MATERIALS.map((_, idx) => (
+                                            <button
+                                                key={idx}
+                                                onClick={() => setActiveMaterial(idx)}
+                                                className={`w-3 h-3 rounded-full transition-all ${activeMaterial === idx ? 'bg-red-500 w-8' : 'bg-white/30'}`}
+                                            ></button>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        onClick={() => setActiveMaterial(activeMaterial === MATERIALS.length - 1 ? 0 : activeMaterial + 1)}
+                                        className="bg-white/10 hover:bg-red-500 text-white px-6 py-3 rounded-lg transition-all"
+                                    >
+                                        Siguiente →
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            {MATERIALS.map((material, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => setActiveMaterial(idx)}
+                                    className={`p-4 rounded-lg border-2 transition-all text-center transform hover:scale-105 ${activeMaterial === idx ? 'border-red-500 bg-red-500/10' : 'border-white/10 bg-white/5 hover:border-white/30'}`}
+                                >
+                                    <div className="text-4xl mb-2">{material.icon}</div>
+                                    <p className="font-semibold text-white text-sm">{material.name}</p>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const LicensesSection = () => {
+            const [ref, isVisible] = useScrollAnimation();
+
+            return (
+                <section className="relative py-20 bg-gradient-to-b from-blue-950 to-black px-4">
+                    <div className="max-w-7xl mx-auto">
+                        <SectionTitle title="Licencias & Colecciones" subtitle="Colecciones coleccionables con personajes iconicos (~30% de nuestras ventas)" />
+
+                        <div ref={ref} className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                            {LICENSES.map((license, idx) => (
+                                <div key={idx} className="relative group cursor-pointer animate-fadeIn" style={{ animationDelay: `${idx * 100}ms` }}>
+                                    <div className={`bg-gradient-to-br ${license.color} p-6 rounded-xl h-full flex flex-col justify-between transform group-hover:scale-105 group-hover:shadow-2xl transition-all relative overflow-hidden`}>
+                                        <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-all rounded-xl"></div>
+
+                                        <div className="relative z-10">
+                                            <h3 className="text-2xl font-bold text-white mb-3">{license.name}</h3>
+
+                                            <div className="bg-white/20 rounded-lg p-3 mb-4 min-h-20">
+                                                <p className="text-white text-sm font-medium">{license.characters.join(', ')}</p>
+                                            </div>
+
+                                            <p className="text-white/90 text-sm mb-4">{license.desc}</p>
+
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-white/80 text-xs font-semibold">{license.percentage} de ventas</span>
+                                                <div className="text-2xl">✨</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="mt-16 bg-gradient-to-r from-red-500/10 to-blue-500/10 p-8 rounded-xl border border-white/10">
+                            <h3 className="text-2xl font-bold text-white mb-4">Impacto de Colecciones</h3>
+                            <div className="grid md:grid-cols-3 gap-8 text-white">
+                                <div>
+                                    <p className="text-4xl font-bold text-red-500 mb-2">~30%</p>
+                                    <p className="text-gray-400">De nuestras ventas son colecciones con licencias</p>
+                                </div>
+                                <div>
+                                    <p className="text-4xl font-bold text-blue-500 mb-2">5+</p>
+                                    <p className="text-gray-400">Licencias activas (Marvel, DC, Naruto, más)</p>
+                                </div>
+                                <div>
+                                    <p className="text-4xl font-bold text-green-500 mb-2">Coleccionable</p>
+                                    <p className="text-gray-400">Ediciones limitadas altamente demandadas</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const DistributionSection = () => {
+            const [ref, isVisible] = useScrollAnimation();
+
+            return (
+                <section className="relative py-20 bg-gradient-to-b from-black to-blue-950 px-4">
+                    <div className="max-w-6xl mx-auto">
+                        <SectionTitle title="Puntos de Distribución" subtitle="Accede a TOP Underwear donde prefieras en todo Chile" />
+
+                        <div className="grid md:grid-cols-2 gap-12 items-center">
+                            <div ref={ref} className={`relative h-96 bg-gradient-to-br from-blue-500/20 to-red-500/20 rounded-xl border border-white/20 flex items-center justify-center overflow-hidden transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="relative w-64 h-64">
+                                        <div className="absolute inset-0 border-2 border-red-500/30 rounded-lg transform -skew-y-12"></div>
+
+                                        {[...Array(12)].map((_, i) => (
+                                            <div
+                                                key={i}
+                                                className="absolute w-3 h-3 bg-red-500 rounded-full animate-pulse"
+                                                style={{
+                                                    left: `${20 + Math.random() * 60}%`,
+                                                    top: `${20 + Math.random() * 60}%`,
+                                                    animationDelay: `${i * 100}ms`,
+                                                }}
+                                            ></div>
+                                        ))}
+
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <div className="text-center">
+                                                <p className="text-4xl font-bold text-red-500">70+</p>
+                                                <p className="text-gray-300 text-sm">Tiendas Propias</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-8">
+                                <div className="bg-white/5 border border-white/10 p-6 rounded-xl hover:border-red-500/50 transition-all">
+                                    <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">🏪 Tiendas Propias TOP</h3>
+                                    <p className="text-gray-400 mb-3">
+                                        <strong className="text-red-500">70+ puntos</strong> de venta estratégicamente ubicados en todo Chile
+                                    </p>
+                                    <p className="text-gray-500 text-sm">Presencia consolidada en las principales ciudades</p>
+                                </div>
+
+                                <div className="bg-white/5 border border-white/10 p-6 rounded-xl hover:border-blue-500/50 transition-all">
+                                    <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">🛍️ Retailers Asociados</h3>
+                                    <div className="space-y-2">
+                                        {BRAND_DATA.stores.retailers.map((retailer, idx) => (
+                                            <div key={idx} className="text-gray-400 flex items-center gap-2">
+                                                <span className="text-red-500">✓</span> {retailer}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="bg-white/5 border border-white/10 p-6 rounded-xl">
+                                    <h3 className="text-lg font-bold text-white mb-4">Contacto Directo</h3>
+                                    <div className="space-y-3">
+                                        <div className="flex items-start gap-3">
+                                            <MapPin className="text-red-500 mt-1 flex-shrink-0" size={20} />
+                                            <div>
+                                                <p className="text-gray-300 text-sm">{BRAND_DATA.headquarters}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <Phone className="text-red-500 flex-shrink-0" size={20} />
+                                            <p className="text-gray-300 text-sm">{BRAND_DATA.phone}</p>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <Mail className="text-red-500 flex-shrink-0" size={20} />
+                                            <p className="text-gray-300 text-sm">{BRAND_DATA.email}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const CommunitySection = () => {
+            const [ref, isVisible] = useScrollAnimation();
+
+            const instagramFeed = [
+                { id: 1, user: '@topunderwear', likes: '2.4K', comments: '128', caption: 'Nueva colección Marvel disponible 🦾 #TopUnderwear #IronMan' },
+                { id: 2, user: '@topunderwear', likes: '3.1K', comments: '256', caption: 'Técnicas de máxima comodidad para el gym 💪 #LineaActive' },
+                { id: 3, user: '@topunderwear', likes: '1.8K', comments: '94', caption: 'Diseños exclusivos con licencia DC Comics 🦇 #DCComics' },
+                { id: 4, user: '@topunderwear', likes: '4.2K', comments: '342', caption: 'Sponsor oficial de fútbol chileno ⚽ #ChileFutbol' },
+            ];
+
+            return (
+                <section className="relative py-20 bg-gradient-to-b from-blue-950 to-black px-4">
+                    <div className="max-w-6xl mx-auto">
+                        <SectionTitle title="Comunidad & Redes" subtitle="Únete a más de 104K+ seguidores que aman TOP" />
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                            {[
+                                { platform: 'Instagram', followers: BRAND_DATA.social.instagram.followers, icon: '📸' },
+                                { platform: 'Facebook', followers: BRAND_DATA.social.facebook.likes, icon: '👍' },
+                                { platform: 'Tienda Online', followers: 'topwear.com', icon: '🛒' },
+                                { platform: 'Contacto', followers: BRAND_DATA.email, icon: '✉️' },
+                            ].map((social, idx) => (
+                                <div key={idx} className="bg-white/5 border border-white/10 p-6 rounded-xl text-center hover:border-red-500/50 transition-all">
+                                    <div className="text-3xl mb-2">{social.icon}</div>
+                                    <p className="text-gray-400 text-sm">{social.platform}</p>
+                                    <p className="text-white font-bold text-lg mt-2">{social.followers}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div ref={ref} className={`mb-12 transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                            <h3 className="text-2xl font-bold text-white mb-6">Últimas Publicaciones</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {instagramFeed.map((post, idx) => (
+                                    <div key={post.id} className="bg-gradient-to-br from-pink-500/10 to-purple-500/10 border border-white/10 rounded-xl overflow-hidden hover:border-pink-500/50 transition-all animate-fadeIn" style={{ animationDelay: `${idx * 100}ms` }}>
+                                        <div className="bg-gradient-to-br from-pink-500/20 to-purple-500/20 h-48 flex items-center justify-center">
+                                            <div className="text-6xl">📷</div>
+                                        </div>
+
+                                        <div className="p-6">
+                                            <div className="flex items-center gap-2 mb-4">
+                                                <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                                                    T
+                                                </div>
+                                                <div>
+                                                    <p className="font-bold text-white text-sm">{post.user}</p>
+                                                    <p className="text-gray-500 text-xs">Hace 2 horas</p>
+                                                </div>
+                                            </div>
+
+                                            <p className="text-gray-300 text-sm mb-4">{post.caption}</p>
+
+                                            <div className="flex justify-between text-gray-400 text-sm border-t border-white/10 pt-4">
+                                                <span>❤️ {post.likes} likes</span>
+                                                <span>💬 {post.comments} comentarios</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="bg-gradient-to-r from-red-500/20 to-blue-500/20 border border-white/20 p-12 rounded-xl text-center">
+                            <h3 className="text-3xl font-bold text-white mb-4">¡Únete al Club TOP!</h3>
+                            <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+                                Acceso exclusivo a colecciones limitadas, descuentos especiales y contenido detrás de cámaras.
+                            </p>
+
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                                <button className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-lg font-semibold transition-all flex items-center justify-center gap-2">
+                                    <Instagram size={20} />
+                                    Seguir Instagram
+                                </button>
+                                <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-all flex items-center justify-center gap-2">
+                                    <Facebook size={20} />
+                                    Seguir Facebook
+                                </button>
+                            </div>
+
+                            <div className="grid md:grid-cols-3 gap-6 text-left">
+                                {[
+                                    { icon: '🎁', title: 'Exclusivas', desc: 'Acceso a colecciones limitadas' },
+                                    { icon: '💰', title: 'Descuentos', desc: 'Ofertas especiales para miembros' },
+                                    { icon: '🔔', title: 'Novedades', desc: 'Primero en enterarte de lanzamientos' },
+                                ].map((benefit, idx) => (
+                                    <div key={idx} className="text-center">
+                                        <div className="text-4xl mb-2">{benefit.icon}</div>
+                                        <p className="font-bold text-white">{benefit.title}</p>
+                                        <p className="text-gray-400 text-sm">{benefit.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Footer = () => (
+            <footer className="bg-black border-t border-white/10 py-12 px-4">
+                <div className="max-w-6xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                        <div>
+                            <h3 className="text-xl font-bold text-white mb-4">TOP Underwear</h3>
+                            <p className="text-gray-400 text-sm">{BRAND_DATA.tagline}</p>
+                            <p className="text-gray-500 text-xs mt-4">© 2025 TOP Underwear. Todos los derechos reservados.</p>
+                        </div>
+
+                        <div>
+                            <h4 className="font-bold text-white mb-4">Productos</h4>
+                            <ul className="space-y-2 text-gray-400 text-sm">
+                                <li className="hover:text-white cursor-pointer">Hombre</li>
+                                <li className="hover:text-white cursor-pointer">Mujer</li>
+                                <li className="hover:text-white cursor-pointer">Niños</li>
+                                <li className="hover:text-white cursor-pointer">Colecciones</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 className="font-bold text-white mb-4">Empresa</h4>
+                            <ul className="space-y-2 text-gray-400 text-sm">
+                                <li className="hover:text-white cursor-pointer">Sobre Nosotros</li>
+                                <li className="hover:text-white cursor-pointer">Tiendas</li>
+                                <li className="hover:text-white cursor-pointer">Contacto</li>
+                                <li className="hover:text-white cursor-pointer">Términos</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 className="font-bold text-white mb-4">Contacto</h4>
+                            <div className="space-y-3 text-gray-400 text-sm">
+                                <div className="flex items-center gap-2">
+                                    <Phone size={16} />
+                                    <span>{BRAND_DATA.phone}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Mail size={16} />
+                                    <span>{BRAND_DATA.email}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <MapPin size={16} />
+                                    <span>Santiago, Chile</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="border-t border-white/10 pt-8">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+                            <div>
+                                <p className="text-gray-500 text-sm mb-2">RUT Empresa</p>
+                                <p className="text-white font-semibold">{BRAND_DATA.rut}</p>
+                            </div>
+
+                            <div>
+                                <p className="text-gray-500 text-sm mb-2">Sitio Web</p>
+                                <p className="text-white font-semibold">{BRAND_DATA.website}</p>
+                            </div>
+
+                            <div className="col-span-2 md:col-span-1">
+                                <p className="text-gray-500 text-sm mb-3">Síguenos</p>
+                                <div className="flex gap-4">
+                                    <button className="bg-white/10 hover:bg-red-500 text-white p-2 rounded-lg transition-all">
+                                        <Instagram size={20} />
+                                    </button>
+                                    <button className="bg-white/10 hover:bg-blue-600 text-white p-2 rounded-lg transition-all">
+                                        <Facebook size={20} />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        );
+
+        // APP PRINCIPAL
+        export default function TopUnderwearEcosystem() {
+            const [activeSection, setActiveSection] = useState('Inicio');
+
+            return (
+                <div className="bg-black text-white min-h-screen">
+                    <NavBar activeSection={activeSection} setActiveSection={setActiveSection} />
+
+                    <main>
+                        {activeSection === 'Inicio' && <HeroSection />}
+                        {activeSection === 'Marca' && <AboutSection />}
+                        {activeSection === 'Catálogo' && <CatalogSection />}
+                        {activeSection === 'Tecnología' && <TechnologySection />}
+                        {activeSection === 'Licencias' && <LicensesSection />}
+                        {activeSection === 'Distribución' && <DistributionSection />}
+                        {activeSection === 'Comunidad' && <CommunitySection />}
+                    </main>
+
+                    <Footer />
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<TopUnderwearEcosystem />);
+    </script>
+</body>
+</html>
